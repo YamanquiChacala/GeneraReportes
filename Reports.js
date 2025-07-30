@@ -19,7 +19,7 @@ function generateReport(sheet) {
     if (key != 'Faltas' && (sheetData[key] == 'R' || sheetData[key] < 6)) {
       const found = reportText.findText(`{${key}}`);
       if(found) {
-        const element = found.getElement();
+        const element = found.getElement().asText();
         if (found.isPartial()) {
           const start = found.getStartOffset();
           const end = found.getEndOffsetInclusive();

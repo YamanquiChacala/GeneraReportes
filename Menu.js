@@ -1,6 +1,3 @@
-// @ts-check
-/// <reference types="google-apps-script" />
-
 /** 
  * Crea el menú "Generador de Reportes" cuando se abre la hoja de cálculo.
  */

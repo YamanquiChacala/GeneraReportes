@@ -1,12 +1,11 @@
-// @ts-check
-/// <reference types="google-apps-script" />
-
 /** Quien puede ver el menú */
 const allowedEditors = [
   "info@chacala.school",
   "yamanqui@chacala.school",
   "erika@chacala.school"
 ];
+
+var testing = "hola";
 
 /** Menu */
 const menuTitle = "Generador de Reportes";
