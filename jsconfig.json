@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "checkJs": true,
-    "lib": ["es2020"]
+    "lib": ["es2023"]
   },
-  "include": ["*.js"]
+  "include": ["src/*.js"]
 }
