@@ -6,8 +6,8 @@
  */
 function addEstudiante(nombre, datos={}) {
   const spreadsheet = SpreadsheetApp.getActive();
-  const templateSheet = spreadsheet.getSheetByName(templateSheetName);
-  const addSheet = spreadsheet.getSheetByName(addSheetName);
+  const templateSheet = spreadsheet.getSheetByName(sheetNames.template);
+  const addSheet = spreadsheet.getSheetByName(sheetNames.add);
 
   // El nombre que se utilizará para la hoja
   const nombreCompleto = nombre.join(" ").trim();
@@ -144,7 +144,7 @@ function addEstudiante(nombre, datos={}) {
  */
 function addSpace() {
   const spreadsheet = SpreadsheetApp.getActive();
-  const addSheet = spreadsheet.getSheetByName(addSheetName);
+  const addSheet = spreadsheet.getSheetByName(sheetNames.add);
 
   // Hacemos espacio.
   addSheet.insertRowBefore(spreadsheet.getRangeByName(addPeriodo1RangeName).getLastRow() - 1)

@@ -5,23 +5,32 @@ const allowedEditors = [
   "erika@chacala.school"
 ];
 
-var testing = "hola";
-
-/** Menu */
-const menuTitle = "Generador de Reportes";
-
 /** Reportes */
 const reportTemplateName = "__Template__";
 
 /** Nombre de la hojas */
-const initSheetName = "Initialization";
-const addSheetName = "Concentrado";
-const templateSheetName = "Template";
+const sheetNames = {
+  init      : "Initialization",
+  template  : "Template",
+  add       : "Concentrado",
+  status    : "Estado"
+};
+
+/** Datos a proteger */
+const protectedSection = {
+  datos: 1,
+  habilidades: 2,
+  observaciones: 3,
+  periodo1: 4,
+  periodo2: 5,
+  periodo3: 6
+};
 
 /** Named ranges */
 // Initialization Sheet
 const initAsignaturasRangeName = "initAsignaturas";
 const initEstudiantesRangeName = "initEstudiantes";
+const initProtectionsRangeName = "initProtections";
 
 // Concentrado
 const addPeriodo1RangeName = "addPeriodo1";

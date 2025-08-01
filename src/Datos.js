@@ -4,7 +4,7 @@
  */
 function addDataRow(name) {
   const spreadsheet = SpreadsheetApp.getActive();
-  const avoidSheets = [initSheetName, addSheetName];
+  const avoidSheets = Object.values(sheetNames).filter((a) => a != sheetNames.template)
   const sheets = spreadsheet.getSheets();
   const prevDatosRange = spreadsheet.getRangeByName(temDatosRangeName);
   
@@ -39,7 +39,7 @@ function addDataRowToSheet(name, sheet, range) {
  */
 function setDataValue(name, value) {
   const spreadsheet = SpreadsheetApp.getActive();
-  const avoidSheets = [initSheetName, addSheetName, templateSheetName];
+  const avoidSheets = Object.values(sheetNames)
   const sheets = spreadsheet.getSheets();
 
   const datosRange = spreadsheet.getRangeByName(temDatosRangeName);

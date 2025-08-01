@@ -46,3 +46,49 @@ function getNonEmptyValues(rangeName) {
 
   return nonEmptyValues;
 }
+
+
+/**
+ * Nos dice si la sección seleccionada debería estar protegida contra escritura.
+ * @param {number} section
+ */
+function isProtected(section){
+  const spreadsheet = SpreadsheetApp.getActive();
+
+  const checkmarkCell = spreadsheet.getRangeByName(initProtectionsRangeName).offset(section, 0);
+
+  return checkmarkCell.isChecked();
+}
+
+/**
+ * Marca o desmarca la sección seleccionada para protección.
+ * @param {number} section
+ * @param {boolean} status
+ */
+function setProtected(section, status) {
+  const spreadsheet = SpreadsheetApp.getActive();
+
+  const checkmarkCell = spreadsheet.getRangeByName(initProtectionsRangeName).offset(section, 0);
+
+  if(status) {
+    checkmarkCell.check();
+  } else {
+    checkmarkCell.uncheck();
+  }
+}
+
+/**
+ * Cambia el estado de la selección para protección.
+ * @param {number} section
+ */
+function toggleProtected(section) {
+  const spreadsheet = SpreadsheetApp.getActive();
+
+  const checkmarkCell = spreadsheet.getRangeByName(initProtectionsRangeName).offset(section, 0);
+
+  if(checkmarkCell.isChecked()) {
+    checkmarkCell.uncheck();
+  } else {
+    checkmarkCell.check();
+  }
+}

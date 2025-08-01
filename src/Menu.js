@@ -1,3 +1,6 @@
+/** Título */
+const menuTitle = "📃 Generador de Reportes";
+
 /** 
  * Crea el menú "Generador de Reportes" cuando se abre la hoja de cálculo.
  */
@@ -11,7 +14,7 @@ function onOpen() {
 function addInitialMenu() {
   const ui = SpreadsheetApp.getUi();
   ui.createMenu(menuTitle)
-    .addItem("Pedir autorización", "requestAuth")
+    .addItem("🪪 Pedir autorización", "requestAuth")
     .addToUi();
 }
 
@@ -23,24 +26,44 @@ function addInitialMenu() {
 function addAuthorizedMenu() {
   const ui = SpreadsheetApp.getUi();
   const spreadsheet = SpreadsheetApp.getActive();
-  const initSheet = spreadsheet.getSheetByName(initSheetName);
-  if( initSheet && !initSheet.isSheetHidden()){
+  const initSheet = spreadsheet.getSheetByName(sheetNames.init);
+  if( initSheet && initSheet.isSheetHidden()){
      ui.createMenu(menuTitle)
-      .addItem("Inicializar materias y alumnos", "initialize")
+      .addItem("🏁 Inicializar materias y alumnos", "initialize")
       .addToUi();
   } else {
+    const status = ["📕 ", "📖 "]
+
+    const datosText = (isProtected(protectedSection.datos) ? status[0] : status[1]) + "Datos"
+    const habilidadesText = (isProtected(protectedSection.habilidades) ? status[0] : status[1]) + "Habilidades"
+    const observacionesText = (isProtected(protectedSection.observaciones) ? status[0] : status[1]) + "Observaciones"
+    const periodo1Text = (isProtected(protectedSection.periodo1) ? status[0] : status[1]) + "Primer periodo"
+    const periodo2Text = (isProtected(protectedSection.periodo2) ? status[0] : status[1]) + "Segundo periodo"
+    const periodo3Text = (isProtected(protectedSection.periodo3) ? status[0] : status[1]) + "Tercer periodo"
+
     ui.createMenu(menuTitle)
-      .addSubMenu(ui.createMenu("Alumnos")
-        .addItem("Añadir nuevo alumno", "addStudent")
-        .addItem("Añadir espacio en blanco", "addSpace"))
-      .addSubMenu(ui.createMenu("Datos de Alumnos")
-        .addItem("Crear nuevo dato", "newData")
-        .addItem("Dar valor a un dato para todos los alumnos", "setData"))
-      .addSeparator()
-      .addSubMenu(ui.createMenu("Reportes")
-        .addItem("Reporte de alumno actual", "currentReport")
+      .addSubMenu(ui.createMenu("🎒 Alumnos")
+        .addItem("➕ Añadir nuevo alumno", "addStudent")
+        .addItem("➖ Añadir espacio en blanco", "addSpace"))
+      .addSubMenu(ui.createMenu("🗃️ Datos de alumnos")
+        .addItem("➕ Crear nuevo dato", "newData")
+        .addItem("📝 Dar valor a un dato para todos los alumnos", "setData"))
+      .addSubMenu(ui.createMenu("🏫 Control de periodos")
+        .addItem("✏️ Borrar comentarios", "a")
         .addSeparator()
-        .addItem("Todos los reportes", "allReports"))
+        .addSubMenu(ui.createMenu("🛡️ Secciones protegidas")
+          .addItem(datosText,"a")
+          .addItem(habilidadesText, "a")
+          .addItem(observacionesText,"a")
+          .addItem(periodo1Text,"a")
+          .addItem(periodo2Text, "a")
+          .addItem(periodo3Text, "a"))
+      )
+      .addSeparator()
+      .addSubMenu(ui.createMenu("📜 Reportes")
+        .addItem("🙋 Reporte de alumno actual", "currentReport")
+        .addSeparator()
+        .addItem("💯 Todos los reportes", "allReports"))
       .addToUi();
   }
 }
@@ -69,9 +92,9 @@ function requestAuth() {
  */
 function initialize() {
   const spreadsheet = SpreadsheetApp.getActive();
-  const initSheet = spreadsheet.getSheetByName(initSheetName);
-  const templateSheet = spreadsheet.getSheetByName(templateSheetName);
-  const addSheet = spreadsheet.getSheetByName(addSheetName);
+  const initSheet = spreadsheet.getSheetByName(sheetNames.init);
+  const templateSheet = spreadsheet.getSheetByName(sheetNames.template);
+  const addSheet = spreadsheet.getSheetByName(sheetNames.add);
 
   if (!initSheet || !addSheet || !templateSheet || initSheet.isSheetHidden()) return;
 
@@ -131,7 +154,7 @@ function setData() {
  */
 function currentReport() {
   const sheet = SpreadsheetApp.getActiveSheet();
-  const forbiddenSheetNames = [initSheetName, addSheetName, templateSheetName];
+  const forbiddenSheetNames = Object.values(sheetNames)
 
   if( forbiddenSheetNames.includes(sheet.getName()) ) {
     const ui = SpreadsheetApp.getUi();
@@ -147,11 +170,18 @@ function currentReport() {
  */
 function allReports() {
   const spreadsheet = SpreadsheetApp.getActive();
-  const avoidSheets = [initSheetName, addSheetName, templateSheetName];
+  const avoidSheets = Object.values(sheetNames)
   const sheets = spreadsheet.getSheets();
 
   for (const sheet of sheets) {
     if (avoidSheets.includes(sheet.getName())) continue;
     generateReport(sheet);
   }
+}
+
+
+function test(){
+  const result = setProtected(protectedSection.periodo1, false)
+
+  console.log("result: %s", result)
 }

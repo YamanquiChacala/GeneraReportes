@@ -7,7 +7,7 @@
  */
 function addAsignaturasToConcentrado() {
   const spreadsheet = SpreadsheetApp.getActive();
-  const addSheet = spreadsheet.getSheetByName(addSheetName);
+  const addSheet = spreadsheet.getSheetByName(sheetNames.add);
   const asignaturas = getAsignaturas(true);
 
   // Insertamos columnas para cada materia.
@@ -63,7 +63,7 @@ function addAsignaturasToConcentrado() {
  */
 function addAsignaturasToTemplate() {
   const spreadsheet = SpreadsheetApp.getActive();
-  const templateSheet = spreadsheet.getSheetByName(templateSheetName);
+  const templateSheet = spreadsheet.getSheetByName(sheetNames.template);
   const asignaturas = getAsignaturas(false);
 
   // Encontramos las separaciones entre asignaturas.
