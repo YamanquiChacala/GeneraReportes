@@ -3,6 +3,7 @@
  * 
  * nombre - Arreglo de 2 elementos: Nombre(s), Apellido(s)
  * datos - Diccionario de donde se obtendrán datos para el template.
+ * @param {string[]} nombre
  */
 function addEstudiante(nombre, datos={}) {
   const spreadsheet = SpreadsheetApp.getActive();
@@ -26,13 +27,13 @@ function addEstudiante(nombre, datos={}) {
   newStudentSheet.getNamedRanges().forEach( namedRange => namedRange.remove());
   newStudentSheet.setName(nombreCompleto);
 
-  const nombreRange = spreadsheet.getRangeByName(temNombreRangeName);
-  const datosRange = spreadsheet.getRangeByName(temDatosRangeName);
-  const habilidadesRange = spreadsheet.getRangeByName(temHabilidadesRangeName);
-  const observacionesRange = spreadsheet.getRangeByName(temObservacionesRangeName);
-  let periodo1CalRange = spreadsheet.getRangeByName(temPeriodo1RangeName);
-  let periodo2CalRange = spreadsheet.getRangeByName(temPeriodo2RangeName);
-  let periodo3CalRange = spreadsheet.getRangeByName(temPeriodo3RangeName);
+  const nombreRange = spreadsheet.getRangeByName(rangeNames.template.name);
+  const datosRange = spreadsheet.getRangeByName(rangeNames.template.data);
+  const habilidadesRange = spreadsheet.getRangeByName(rangeNames.template.habilities);
+  const observacionesRange = spreadsheet.getRangeByName(rangeNames.template.comments);
+  let periodo1CalRange = spreadsheet.getRangeByName(rangeNames.template.periodo1);
+  let periodo2CalRange = spreadsheet.getRangeByName(rangeNames.template.periodo2);
+  let periodo3CalRange = spreadsheet.getRangeByName(rangeNames.template.periodo3);
 
   // Insertamos el nombre del estudiante en la hoja.
   newStudentSheet.getRange(nombreRange.getRow(), nombreRange.getColumn(), nombreRange.getHeight(), nombreRange.getWidth())
@@ -70,14 +71,14 @@ function addEstudiante(nombre, datos={}) {
   // ===== Creación del estudiatne en el concentrado =====
 
   // Hacemos espacio para el nuevo estudiante.
-  addSheet.insertRowBefore(spreadsheet.getRangeByName(addPeriodo1RangeName).getLastRow() - 1)
-  addSheet.insertRowBefore(spreadsheet.getRangeByName(addPeriodo2RangeName).getLastRow() - 1)
-  addSheet.insertRowBefore(spreadsheet.getRangeByName(addPeriodo3RangeName).getLastRow() - 1)
+  addSheet.insertRowBefore(spreadsheet.getRangeByName(rangeNames.add.periodo1).getLastRow() - 1)
+  addSheet.insertRowBefore(spreadsheet.getRangeByName(rangeNames.add.periodo2).getLastRow() - 1)
+  addSheet.insertRowBefore(spreadsheet.getRangeByName(rangeNames.add.periodo3).getLastRow() - 1)
 
   // Seleccionamos los rangos después de hacer espacio para evitar errores.
-  const periodo1Range = spreadsheet.getRangeByName(addPeriodo1RangeName);
-  const periodo2Range = spreadsheet.getRangeByName(addPeriodo2RangeName);
-  const periodo3Range = spreadsheet.getRangeByName(addPeriodo3RangeName);
+  const periodo1Range = spreadsheet.getRangeByName(rangeNames.add.periodo1);
+  const periodo2Range = spreadsheet.getRangeByName(rangeNames.add.periodo2);
+  const periodo3Range = spreadsheet.getRangeByName(rangeNames.add.periodo3);
 
   const distanceToPeriodo2 = periodo1Range.getRow() - periodo2Range.getRow();
   const distanceToPeriodo3 = periodo1Range.getRow() - periodo3Range.getRow();
@@ -145,9 +146,35 @@ function addEstudiante(nombre, datos={}) {
 function addSpace() {
   const spreadsheet = SpreadsheetApp.getActive();
   const addSheet = spreadsheet.getSheetByName(sheetNames.add);
+  const statusSheet = spreadsheet.getSheetByName(sheetNames.status);
 
-  // Hacemos espacio.
-  addSheet.insertRowBefore(spreadsheet.getRangeByName(addPeriodo1RangeName).getLastRow() - 1)
-  addSheet.insertRowBefore(spreadsheet.getRangeByName(addPeriodo2RangeName).getLastRow() - 1)
-  addSheet.insertRowBefore(spreadsheet.getRangeByName(addPeriodo3RangeName).getLastRow() - 1)
+  // ====== Concentrado ======
+
+  // Hacemos espacio en el concentrado.
+  for( let rangeName of [rangeNames.add.periodo1, rangeNames.add.periodo2, rangeNames.add.periodo3] ) {
+    addSheet.insertRowBefore(spreadsheet.getRangeByName(rangeName).getLastRow() - 1);
+  }
+
+  // ===== Estado ======
+
+  const statusRangeNames = [
+    rangeNames.status.datos, 
+    rangeNames.status.habilidades, 
+    rangeNames.status.observaciones, 
+    rangeNames.status.periodo1, 
+    rangeNames.status.periodo2, 
+    rangeNames.status.periodo3
+  ];
+  
+  // Hacemos espacio en el estado.
+  for( let rangeName of statusRangeNames) {
+    statusSheet.insertRowAfter(spreadsheet.getRangeByName(rangeName).getLastRow());
+  }
+
+  // Estendemos los rangos con nombre.
+  statusSheet.getNamedRanges().forEach(namedRange => {
+    if( statusRangeNames.includes(namedRange.getName()) ){
+      namedRange.setRange(namedRange.getRange().offset(0, 0, namedRange.getRange().getHeight() + 1));
+    }
+  });
 }

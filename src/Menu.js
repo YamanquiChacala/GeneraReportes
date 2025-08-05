@@ -49,7 +49,7 @@ function addAuthorizedMenu() {
         .addItem("➕ Crear nuevo dato", "newData")
         .addItem("📝 Dar valor a un dato para todos los alumnos", "setData"))
       .addSubMenu(ui.createMenu("🏫 Control de periodos")
-        .addItem("✏️ Borrar comentarios", "a")
+        .addItem("✏️ Borrar observaciones", "a")
         .addSeparator()
         .addSubMenu(ui.createMenu("🛡️ Secciones protegidas")
           .addItem(datosText,"a")
@@ -78,6 +78,8 @@ function requestAuth() {
   const me = Session.getEffectiveUser().getEmail();
   if ( allowedEditors.includes(me) ){
     addAuthorizedMenu();
+  } else {
+    addInitialMenu();
   }
 }
 
@@ -95,8 +97,9 @@ function initialize() {
   const initSheet = spreadsheet.getSheetByName(sheetNames.init);
   const templateSheet = spreadsheet.getSheetByName(sheetNames.template);
   const addSheet = spreadsheet.getSheetByName(sheetNames.add);
+  const statusSheet = spreadsheet.getSheetByName(sheetNames.status);
 
-  if (!initSheet || !addSheet || !templateSheet || initSheet.isSheetHidden()) return;
+  if (!initSheet || !addSheet || !statusSheet || !templateSheet || initSheet.isSheetHidden()) return;
 
   addSheet.activate();
   addAsignaturasToConcentrado();
@@ -105,7 +108,8 @@ function initialize() {
 
   initSheet.hideSheet();
   templateSheet.hideSheet();
-  onOpen();
+  statusSheet.setRowHeight(1,65);
+  requestAuth();
 }
 
 /**
@@ -181,7 +185,12 @@ function allReports() {
 
 
 function test(){
-  const result = setProtected(protectedSection.periodo1, false)
+  const spreadsheet = SpreadsheetApp.getActive();
+  const statusSheet = spreadsheet.getSheetByName(sheetNames.status);
+  const testRange = spreadsheet.getRangeByName(rangeNames.status.periodo3);
 
-  console.log("result: %s", result)
+  statusSheet.insertRowsAfter(testRange.getLastRow(),2);
+
+
+  
 }

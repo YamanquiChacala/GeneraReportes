@@ -85,14 +85,14 @@ function createReportFile(name) {
 function getValueDictionary(sheet) {
   const spreadsheet = SpreadsheetApp.getActive();
 
-  const nombreRange = spreadsheet.getRangeByName(temNombreRangeName);
-  const datosRange = spreadsheet.getRangeByName(temDatosRangeName);
-  const habilidadesRange = spreadsheet.getRangeByName(temHabilidadesRangeName);
-  const observacionesRange = spreadsheet.getRangeByName(temObservacionesRangeName);
-  const periodo1CalRange = spreadsheet.getRangeByName(temPeriodo1RangeName);
-  const periodo2CalRange = spreadsheet.getRangeByName(temPeriodo2RangeName);
-  const periodo3CalRange = spreadsheet.getRangeByName(temPeriodo3RangeName);
-  const promedioCalRange = spreadsheet.getRangeByName(temPromedioRangeName);
+  const nombreRange = spreadsheet.getRangeByName(rangeNames.template.name);
+  const datosRange = spreadsheet.getRangeByName(rangeNames.template.data);
+  const habilidadesRange = spreadsheet.getRangeByName(rangeNames.template.habilities);
+  const observacionesRange = spreadsheet.getRangeByName(rangeNames.template.comments);
+  const periodo1CalRange = spreadsheet.getRangeByName(rangeNames.template.periodo1);
+  const periodo2CalRange = spreadsheet.getRangeByName(rangeNames.template.periodo2);
+  const periodo3CalRange = spreadsheet.getRangeByName(rangeNames.template.periodo3);
+  const promedioCalRange = spreadsheet.getRangeByName(rangeNames.template.promedio);
 
   // Inicializamos el diccionario a regresar.
   const valores = {};

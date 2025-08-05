@@ -1,30 +1,35 @@
 /**
  * Zips two arrays into a dictionary.
+ * @param {any[]} headers
+ * @param {any[]} values
  */
 function createDict(headers, values) {
   const result = {};
-  headers.forEach( (key, i) => result[key] = values[i]);
+  headers.forEach( (/** @type {string | number} */ key, /** @type {string | number} */ i) => result[key] = values[i]);
   return result;
 }
 
 /**
  * Regresa una lista de las Asignaturas.
  * Retira espacios antes y después, pero respeta espacios intermedios.
- * @param flat - Determina si la lista es anidada (false) o llana (true)
+ * @param {boolean} flat - Determina si la lista es anidada (false) o llana (true)
+ * @param {boolean} respectEmpty
  */
-function getAsignaturas(flat) {
+function getAsignaturas(flat, respectEmpty) {
   if (flat) {
-    return getNonEmptyValues(initAsignaturasRangeName).flat();
+    return getNonEmptyValues(rangeNames.init.asignaturas, respectEmpty).flat();
   } else {
-    return getNonEmptyValues(initAsignaturasRangeName);
+    return getNonEmptyValues(rangeNames.init.asignaturas, respectEmpty);
   }
 }
 
 /**
  * Regresa los valores del rango dado, eliminando espacios de más.
  * Esta función la usa el proceso de inicialización para conseguir la lista de Asignaturas y Estudiantes.
+ * @param {string} rangeName
+ * @param {boolean} respectEmpty
  */
-function getNonEmptyValues(rangeName) {
+function getNonEmptyValues(rangeName, respectEmpty) {
   const spreadsheet = SpreadsheetApp.getActive();
   const range = spreadsheet.getRangeByName(rangeName);
   const values = range.offset(1,0,100,range.getWidth()).getValues();
@@ -33,11 +38,7 @@ function getNonEmptyValues(rangeName) {
   for( const row of values ) {
     if( row[0] || !erraseIfEmpty) {
       nonEmptyValues.push(row);
-      if( row[0] ) {
-        erraseIfEmpty = false;
-      } else {
-        erraseIfEmpty = true;
-      }
+      erraseIfEmpty = !(respectEmpty && row[0]);
     }
   }
   if( !nonEmptyValues[nonEmptyValues.length-1][0] ) {
@@ -55,7 +56,7 @@ function getNonEmptyValues(rangeName) {
 function isProtected(section){
   const spreadsheet = SpreadsheetApp.getActive();
 
-  const checkmarkCell = spreadsheet.getRangeByName(initProtectionsRangeName).offset(section, 0);
+  const checkmarkCell = spreadsheet.getRangeByName(rangeNames.init.protections).offset(section, 0);
 
   return checkmarkCell.isChecked();
 }
@@ -68,7 +69,7 @@ function isProtected(section){
 function setProtected(section, status) {
   const spreadsheet = SpreadsheetApp.getActive();
 
-  const checkmarkCell = spreadsheet.getRangeByName(initProtectionsRangeName).offset(section, 0);
+  const checkmarkCell = spreadsheet.getRangeByName(rangeNames.init.protections).offset(section, 0);
 
   if(status) {
     checkmarkCell.check();
@@ -84,7 +85,7 @@ function setProtected(section, status) {
 function toggleProtected(section) {
   const spreadsheet = SpreadsheetApp.getActive();
 
-  const checkmarkCell = spreadsheet.getRangeByName(initProtectionsRangeName).offset(section, 0);
+  const checkmarkCell = spreadsheet.getRangeByName(rangeNames.init.protections).offset(section, 0);
 
   if(checkmarkCell.isChecked()) {
     checkmarkCell.uncheck();

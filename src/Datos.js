@@ -6,7 +6,7 @@ function addDataRow(name) {
   const spreadsheet = SpreadsheetApp.getActive();
   const avoidSheets = Object.values(sheetNames).filter((a) => a != sheetNames.template)
   const sheets = spreadsheet.getSheets();
-  const prevDatosRange = spreadsheet.getRangeByName(temDatosRangeName);
+  const prevDatosRange = spreadsheet.getRangeByName(rangeNames.template.data);
   
   const newDatosRowRange = prevDatosRange.offset(prevDatosRange.getHeight(),0,1,prevDatosRange.getWidth());
   for( const sheet of sheets) {
@@ -15,7 +15,7 @@ function addDataRow(name) {
   }
 
   const newDatosRange = prevDatosRange.offset(0,0,prevDatosRange.getHeight()+1,prevDatosRange.getWidth());
-  spreadsheet.setNamedRange(temDatosRangeName, newDatosRange);
+  spreadsheet.setNamedRange(rangeNames.template.data, newDatosRange);
 }
 
 /**
@@ -42,7 +42,7 @@ function setDataValue(name, value) {
   const avoidSheets = Object.values(sheetNames)
   const sheets = spreadsheet.getSheets();
 
-  const datosRange = spreadsheet.getRangeByName(temDatosRangeName);
+  const datosRange = spreadsheet.getRangeByName(rangeNames.template.data);
   for (const sheet of sheets) {
     if (avoidSheets.includes(sheet.getName())) continue;
     setDataValueForSheet(sheet, datosRange, name, value);

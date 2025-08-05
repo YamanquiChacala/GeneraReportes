@@ -27,23 +27,34 @@ const protectedSection = {
 };
 
 /** Named ranges */
-// Initialization Sheet
-const initAsignaturasRangeName = "initAsignaturas";
-const initEstudiantesRangeName = "initEstudiantes";
-const initProtectionsRangeName = "initProtections";
-
-// Concentrado
-const addPeriodo1RangeName = "addPeriodo1";
-const addPeriodo2RangeName = "addPeriodo2";
-const addPeriodo3RangeName = "addPeriodo3";
-
-// Template
-const temNombreRangeName = 'temNombre';
-const temDatosRangeName = 'temDatos';
-const temHabilidadesRangeName = "temHabilidades";
-const temObservacionesRangeName = "temObservaciones";
-const temPonderadoRangeName = "temPonderado";
-const temPeriodo1RangeName = "temPeriodo1";
-const temPeriodo2RangeName = "temPeriodo2";
-const temPeriodo3RangeName = "temPeriodo3";
-const temPromedioRangeName = "temPromedio";
+const rangeNames = {
+  init: {
+    asignaturas: "initAsignaturas",
+    students: "initEstudiantes",
+    protections: "initProtections",
+  },
+  add: {
+    periodo1: "addPeriodo1",
+    periodo2: "addPeriodo2",
+    periodo3: "addPeriodo3",
+  },
+  status: {
+    datos: "statDatos",
+    habilidades: "statHabilidades",
+    observaciones: "statObservaciones",
+    periodo1: "statPeriodo1",
+    periodo2: "statPeriodo2",
+    periodo3: "statPeriodo3",
+  },
+  template: {
+    weights: "temPonderado",
+    name: "temNombre",
+    data: "temDatos",
+    habilities: "temHabilidades",
+    comments: "temObservaciones",
+    periodo1: "temPeriodo1",
+    periodo2: "temPeriodo2",
+    periodo3: "temPeriodo3",
+    promedio: "temPromedio",
+  },
+}
