@@ -93,3 +93,53 @@ function toggleProtected(section) {
     checkmarkCell.check();
   }
 }
+
+/**
+ * @param {string} title
+ */
+function showDialog(title) {
+  var html = HtmlService.createHtmlOutputFromFile("src/dialog")
+    .setWidth(400)
+    .setHeight(400);
+  SpreadsheetApp.getUi().showModalDialog(html, title);
+  
+  // Start the operation asynchronously (kind of)
+  // We'll simulate this using PropertiesService
+  PropertiesService.getScriptProperties().setProperty(properties.progress, '0');
+  PropertiesService.getScriptProperties().setProperty(properties.details, '');
+}
+
+function updateDialog() {
+  const progress = parseInt(PropertiesService.getScriptProperties().getProperty(properties.progress));
+  const details = PropertiesService.getScriptProperties().getProperty(properties.details);
+
+  return {progress: progress, details: details};
+}
+
+/**
+ * @param {number} newProgress
+ * @param {boolean} [add]
+ */
+function updateProgress(newProgress, add=false){
+  const scriptProperties = PropertiesService.getScriptProperties();
+  let progress = 0;
+  if( add ){
+    progress = parseInt(scriptProperties.getProperty(properties.progress));
+  }
+  progress += newProgress;
+  scriptProperties.setProperty(properties.progress, progress.toString())
+}
+
+/**
+ * @param {string} newDetails
+ * @param {boolean} [append]
+ */
+function updateDetails(newDetails, append=false) {
+  const scriptProperties = PropertiesService.getScriptProperties();
+  let details = "";
+  if( append ) {
+    details = scriptProperties.getProperty(properties.details);
+  }
+  details += newDetails;
+  scriptProperties.setProperty(properties.details, details)
+}

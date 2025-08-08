@@ -58,3 +58,21 @@ const rangeNames = {
     promedio: "temPromedio",
   },
 }
+
+const indexPos = {
+  status: {
+    datos: 0,
+    habilidades: 1,
+    observaciones: 2,
+    periodo1: 3,
+    periodo2: 4,
+    periodo3: 5,
+  }
+}
+
+/** Para las propiedades */
+const properties = {
+  progress: "progress",
+  details: "details",
+  done: -1,
+};

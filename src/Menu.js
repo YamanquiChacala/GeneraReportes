@@ -27,7 +27,7 @@ function addAuthorizedMenu() {
   const ui = SpreadsheetApp.getUi();
   const spreadsheet = SpreadsheetApp.getActive();
   const initSheet = spreadsheet.getSheetByName(sheetNames.init);
-  if( initSheet && initSheet.isSheetHidden()){
+  if( initSheet && !initSheet.isSheetHidden()){
      ui.createMenu(menuTitle)
       .addItem("🏁 Inicializar materias y alumnos", "initialize")
       .addToUi();
@@ -49,7 +49,7 @@ function addAuthorizedMenu() {
         .addItem("➕ Crear nuevo dato", "newData")
         .addItem("📝 Dar valor a un dato para todos los alumnos", "setData"))
       .addSubMenu(ui.createMenu("🏫 Control de periodos")
-        .addItem("✏️ Borrar observaciones", "a")
+        .addItem("✏️ Borrar observaciones", "test")
         .addSeparator()
         .addSubMenu(ui.createMenu("🛡️ Secciones protegidas")
           .addItem(datosText,"a")
@@ -101,14 +101,29 @@ function initialize() {
 
   if (!initSheet || !addSheet || !statusSheet || !templateSheet || initSheet.isSheetHidden()) return;
 
+  const scriptProperties = PropertiesService.getScriptProperties();
+
+  showDialog("Inicializando")
+
   addSheet.activate();
   addAsignaturasToConcentrado();
+
+  statusSheet.activate();
+  addAsignaturasToStatus();
+
+  templateSheet.activate();
   addAsignaturasToTemplate();
+
   addEstudiantesFromInit();
 
+  addSheet.activate();
+  
   initSheet.hideSheet();
   templateSheet.hideSheet();
   statusSheet.setRowHeight(1,65);
+
+  updateProgress(properties.done);
+
   requestAuth();
 }
 
@@ -185,12 +200,5 @@ function allReports() {
 
 
 function test(){
-  const spreadsheet = SpreadsheetApp.getActive();
-  const statusSheet = spreadsheet.getSheetByName(sheetNames.status);
-  const testRange = spreadsheet.getRangeByName(rangeNames.status.periodo3);
-
-  statusSheet.insertRowsAfter(testRange.getLastRow(),2);
-
-
-  
+  addEstudiante(["Yamanqui", "García Rosles"],{CURP: "GARY801114MDF09", Nivel: "Secundaria", Grado: "3ro", Periodo: "1ro"});
 }
