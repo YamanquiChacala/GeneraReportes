@@ -1,4 +1,6 @@
-<img src=images/Logo.png style="display:block;float:none;margin-left:auto;margin-right:auto;"/>
+<p align="center" width="100%">
+    <img src=images/Logo.png>
+</p>
 
 # 📃 Generador de reportes
 
