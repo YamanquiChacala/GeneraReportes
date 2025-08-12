@@ -3,6 +3,7 @@
  * 
  * Saca la información de la hoja y la coloca en una copia del documento "reportTemplateName".
  * Coloca en rojo calificaciones reprobatorias: <6 y R
+ * @param {GoogleAppsScript.Spreadsheet.Sheet} sheet
  */
 function generateReport(sheet) {
     const name = sheet.getName();
@@ -10,12 +11,19 @@ function generateReport(sheet) {
 
     if (!reportFile) return;
 
+    updateDetails(`<p>Reporte de ${name}</p>`, true);
+    updateProgress(0, false);
+
     const sheetData = getValueDictionary(sheet);
 
     const reportDoc = DocumentApp.openById(reportFile.getId());
     const reportText = reportDoc.getBody();
 
-    for (const key in sheetData) {
+    const keys = Object.keys(sheetData);
+
+    const progress = Math.floor(100 / keys.length);
+
+    for (const key of keys) {
         if (key != 'Faltas' && (sheetData[key] == 'R' || sheetData[key] < 6)) {
             const found = reportText.findText(`{${key}}`);
             if (found) {
@@ -30,6 +38,8 @@ function generateReport(sheet) {
             }
         }
         reportText.replaceText(`{${key}}`, sheetData[key]);
+
+        updateProgress(progress, true);
     }
     reportDoc.saveAndClose();
 }
@@ -38,6 +48,7 @@ function generateReport(sheet) {
  * Crea y regresa una copia del machote de reporte.
  * El machote debe tener el nombre definido en "reportTemplateName" y estar en la misma carpeta que esta hoja.
  * Si ya existe un archivo con el mismo nombre, este se elimina antes de crear el nuevo.
+ * @param {string} name
  */
 function createReportFile(name) {
     const spreadsheet = SpreadsheetApp.getActive();
@@ -81,6 +92,7 @@ function createReportFile(name) {
  * - Promedio por periodo: En formato fp{i} donde
  *    i es el índice del periodo
  * - Promedio total: ff
+ * @param {GoogleAppsScript.Spreadsheet.Sheet} sheet
  */
 function getValueDictionary(sheet) {
     const spreadsheet = SpreadsheetApp.getActive();
@@ -99,7 +111,7 @@ function getValueDictionary(sheet) {
 
     // Guardamos los nombres y apellidos (en mayúsculas)
     sheet.getRange(nombreRange.getRow(), nombreRange.getColumn(), nombreRange.getHeight(), nombreRange.getWidth())
-        .getMergedRanges().forEach((range, i) => {
+        .getMergedRanges().forEach((/** @type {GoogleAppsScript.Spreadsheet.Range} */ range, /** @type {number} */ i) => {
             let label;
             if (i == 0) {
                 label = "Nombres";

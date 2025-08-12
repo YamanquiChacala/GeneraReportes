@@ -1,6 +1,6 @@
 /**
  * Inserta una fila de datos en todas las hojas de estudiantes.
- * name - El título que se le dará a la fila
+ * @param {string} name El título que se le dará a la fila
  */
 function addDataRow(name) {
     const spreadsheet = SpreadsheetApp.getActive();
@@ -16,13 +16,15 @@ function addDataRow(name) {
 
     const newDatosRange = prevDatosRange.offset(0, 0, prevDatosRange.getHeight() + 1, prevDatosRange.getWidth());
     spreadsheet.setNamedRange(rangeNames.template.data, newDatosRange);
+
+    updateSheetProtections();
 }
 
 /**
  * Inserta una file de datos en una hoja específica
- * name - El título que se le dará a la fila
- * sheet - La hoja donde se insertará
- * range - La fila que se creará
+ * @param {string} name El título que se le dará a la fila
+ * @param {GoogleAppsScript.Spreadsheet.Sheet} sheet La hoja donde se insertará
+ * @param {GoogleAppsScript.Spreadsheet.Range} range La fila que se creará
  */
 function addDataRowToSheet(name, sheet, range) {
     sheet.insertRowBefore(range.getRow());
@@ -34,8 +36,11 @@ function addDataRowToSheet(name, sheet, range) {
 
 /**
  * Aplica un valor a una fila de datos, para todas las hojas de estudiantes.
- * name - El título del dato a darle valor
- * value - El valor que se pondrá
+ * @param {string} name El título del dato a darle valor
+ * @param {string} value El valor que se pondrá
+ * 
+ * TODO: En vez de buscar en cada hoja, buscar el dato en el template, y modificar cada
+ * hoja directamente.
  */
 function setDataValue(name, value) {
     const spreadsheet = SpreadsheetApp.getActive();
@@ -50,11 +55,11 @@ function setDataValue(name, value) {
 }
 
 /**
- * Aplica u valor a una fila de datos, para la hoja seleccionada.
- * sheet - La hoja donde se pondrá el valor
- * range - El rango donde están todos los datos
- * name - El título del dato a darle valor
- * value - El valor que se pondrá.
+ * Aplica un valor a una fila de datos, para la hoja seleccionada.
+ * @param {GoogleAppsScript.Spreadsheet.Sheet} sheet La hoja donde se pondrá el valor
+ * @param {GoogleAppsScript.Spreadsheet.Range} range El rango donde están todos los datos
+ * @param {string} name El título del dato a darle valor
+ * @param {string} value El valor que se pondrá
  */
 function setDataValueForSheet(sheet, range, name, value) {
     const datosRange = sheet.getRange(range.getRow(), range.getColumn(), range.getHeight(), range.getWidth());

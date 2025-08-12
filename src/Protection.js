@@ -1,6 +1,11 @@
+/**
+ * Actualiza las regiones protegidas de todas las hojas de estudiantes.
+ * Utiliza las marcas en la hoja de Inicialización para determinar
+ * qué secciones deben estar protegidas.
+ */
 function updateSheetProtections() {
     updateDetails("<h4>Actualizando secciones protegidas</h4>", true);
-    updateProgress(0);
+    updateProgress(0, false);
 
     const spreadsheet = SpreadsheetApp.getActive();
     const sheets = spreadsheet.getSheets();
@@ -67,6 +72,10 @@ function updateSheetProtections() {
 }
 
 /**
+ * Divide un rango en secciones contiguas.
+ * Esto para que los espacios en blanco entre asignaturas no sean editables,
+ * y a la vez no generar rangos por renglón.
+ * 
  * @param {boolean[]} asignaturasMask
  * @param {number} startRow
  * @param {number} startColumn

@@ -25,8 +25,9 @@ function addEstudiante(nombre, datos = {}) {
     // ===== Creación de la hoja del estudiante =====
 
     updateDetails(`<h5>${nombreCompleto}</h5>`, true);
+    updateSheetToFinish(nombreCompleto);
     const progres = Math.floor(100 / 34);
-    updateProgress(0);
+    updateProgress(0, false);
 
     // Creamos la hoja del estudiante y le damos el nombre.
     const newStudentSheet = templateSheet.copyTo(spreadsheet);
@@ -237,7 +238,6 @@ function addEstudiante(nombre, datos = {}) {
         }
     }
 
-
     // Fundimos las celdas para las observaciones y colocalmos las fórmulas.
     const statusObservacionesRange = statusRanges[indexPos.status.observaciones].offset(statusRanges[indexPos.status.observaciones].getHeight() - 1, 3, 1, statusRanges[indexPos.status.observaciones].getWidth() - 3);
     for (let i = 0; i < statusObservacionesRange.getWidth() / 3; i++) {
@@ -257,7 +257,7 @@ function addSpace() {
 
     updateDetails("<h5>Añadiendo espacio</h5>", true);
     const progress = Math.floor(100 / 15);
-    updateProgress(0);
+    updateProgress(0, false);
     // ====== Concentrado ======
     addSheet.activate();
 
@@ -292,4 +292,41 @@ function addSpace() {
             updateProgress(progress, true); // x6
         }
     });
+}
+
+/**
+ * Replaces the comments in all sheets with the default comment of the template.
+ */
+function removeComments() {
+    updateDetails("<p>Preparando comentario base</p>", true);
+    updateProgress(0, false);
+
+    const spreadsheet = SpreadsheetApp.getActive();
+    const sheets = spreadsheet.getSheets();
+    const avoidSheets = Object.values(sheetNames);
+
+    const progress = Math.floor(100 / (sheets.length - 3));
+
+    const commentRange = spreadsheet.getRangeByName(rangeNames.template.comments);
+    const defaultValues = commentRange.getValues();
+    /** @type {[number, number, number, number]} */
+    const rangeParams = [
+        commentRange.getRow(),
+        commentRange.getColumn(),
+        commentRange.getHeight(),
+        commentRange.getWidth()
+    ];
+
+    updateProgress(progress, true);
+    updateDetails("<h4>Borrando comentarios</h4>", true);
+    for (const sheet of sheets) {
+        if (avoidSheets.includes(sheet.getName())) continue;
+
+        updateDetails(`<p>${sheet.getName()}</p>`, true);
+
+        const sheetCommentsRange = sheet.getRange(...rangeParams);
+        sheetCommentsRange.setValues(defaultValues);
+
+        updateProgress(progress, true); // # of sheets - 4
+    }
 }

@@ -49,9 +49,11 @@ function getNonEmptyValues(rangeName, respectEmpty) {
 }
 
 /**
+ * Genera un diálogo de avance para tareas tardadas.
  * @param {string} title
+ * @param {string} sheetToFinish
  */
-function showDialog(title) {
+function showDialog(title, sheetToFinish) {
     var html = HtmlService.createHtmlOutputFromFile("src/dialog")
         .setWidth(400)
         .setHeight(400);
@@ -60,11 +62,15 @@ function showDialog(title) {
     const cache = CacheService.getDocumentCache();
     cache.put(cacheKeys.progress, "0");
     cache.put(cacheKeys.details, "");
+    cache.put(cacheKeys.sheetToFinish, sheetToFinish);
 
     // PropertiesService.getScriptProperties().setProperty(properties.progress, '0');
     // PropertiesService.getScriptProperties().setProperty(properties.details, '');
 }
 
+/**
+ * Cuando el dialogo pide información, esta función le dice el avance.
+ */
 function updateDialog() {
     const cache = CacheService.getDocumentCache();
 
@@ -77,17 +83,35 @@ function updateDialog() {
     return { progress: progress, details: details };
 }
 
+/**
+ * Una vez que el diálogo se cierra, esta función se ejecuta.
+*/
 function finishDialog() {
-    const spreadsheet = SpreadsheetApp.getActive();
-    const addSheet = spreadsheet.getSheetByName(sheetNames.add);
+    const cache = CacheService.getDocumentCache();
 
-    addSheet.activate();
+    let sheetToGo = cache.get(cacheKeys.sheetToFinish);
+    if (!sheetToGo) sheetToGo = sheetNames.add;
+
+    const spreadsheet = SpreadsheetApp.getActive();
+    const sheet = spreadsheet.getSheetByName(sheetToGo);
+
+    sheet?.activate();
     requestAuth();
 }
 
 /**
+ * Actualiza la hoja a la cual movernos cuando el diálogo desaparezca.
+ * @param {string} sheetName
+ */
+function updateSheetToFinish(sheetName) {
+    const cache = CacheService.getDocumentCache();
+    cache.put(cacheKeys.sheetToFinish, sheetName);
+}
+
+/**
+ * Actualiza el cache de progreso.
  * @param {number} newProgress
- * @param {boolean} [add]
+ * @param {boolean} add
  */
 function updateProgress(newProgress, add) {
     const cache = CacheService.getDocumentCache();
@@ -104,8 +128,9 @@ function updateProgress(newProgress, add) {
 }
 
 /**
+ * Actualiza el cache de detalles.
  * @param {string} newDetails
- * @param {boolean} [append]
+ * @param {boolean} append
  */
 function updateDetails(newDetails, append) {
     const cache = CacheService.getDocumentCache();

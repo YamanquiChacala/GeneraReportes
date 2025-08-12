@@ -74,6 +74,7 @@ const indexPos = {
 const cacheKeys = {
     progress: "progress",
     details: "details",
+    sheetToFinish: "sheetToFinish",
     done: -1,
 };
 

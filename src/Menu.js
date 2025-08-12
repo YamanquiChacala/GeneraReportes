@@ -21,7 +21,7 @@ function addInitialMenu() {
 /**
  * Crea el menú principal.
  * Hay dos versiones. Si la hoja "Initialize" es visible, solo aparece un botón para inicializar.
- * Si la hoja "Initialize" no existe o está oculta, aparece el menú normal.
+ * Si la hoja "Initialize" está oculta, aparece el menú normal.
  */
 function addAuthorizedMenu() {
     const ui = SpreadsheetApp.getUi();
@@ -49,16 +49,15 @@ function addAuthorizedMenu() {
                 .addItem("➕ Crear nuevo dato", "newData")
                 .addItem("📝 Dar valor a un dato para todos los alumnos", "setData"))
             .addSubMenu(ui.createMenu("🏫 Control de periodos")
-                .addItem("✏️ Borrar observaciones", "a")
+                .addItem("✏️ Borrar observaciones", "erraseComments")
                 .addSeparator()
                 .addSubMenu(ui.createMenu("🛡️ Secciones protegidas")
-                    .addItem(datosText, "a")
-                    .addItem(habilidadesText, "a")
-                    .addItem(observacionesText, "a")
-                    .addItem(periodo1Text, "a")
-                    .addItem(periodo2Text, "a")
-                    .addItem(periodo3Text, "a"))
-            )
+                    .addItem(datosText, "toggleDatos")
+                    .addItem(habilidadesText, "toggleHabilidades")
+                    .addItem(observacionesText, "toggleObservaciones")
+                    .addItem(periodo1Text, "togglePeriodo1")
+                    .addItem(periodo2Text, "togglePeriodo2")
+                    .addItem(periodo3Text, "togglePeriodo3")))
             .addSeparator()
             .addSubMenu(ui.createMenu("📜 Reportes")
                 .addItem("🙋 Reporte de alumno actual", "currentReport")
@@ -101,9 +100,9 @@ function initialize() {
 
     if (!initSheet || !addSheet || !statusSheet || !templateSheet || initSheet.isSheetHidden()) return;
 
-    const scriptProperties = PropertiesService.getScriptProperties();
+    showDialog("Inicializando", sheetNames.add);
 
-    showDialog("Inicializando")
+    const scriptProperties = PropertiesService.getScriptProperties();
 
     addSheet.activate();
     addAsignaturasToConcentrado();
@@ -132,7 +131,7 @@ function finishInitialization() {
     templateSheet.hideSheet();
     statusSheet.setRowHeight(1, 65);
 
-    updateProgress(cacheKeys.done);
+    updateProgress(cacheKeys.done, false);
 }
 
 /**
@@ -146,7 +145,13 @@ function addStudent() {
     const ui = SpreadsheetApp.getUi();
     const nombre = ui.prompt("Nombre(s)", "Sin apellidos", ui.ButtonSet.OK).getResponseText().trim();
     const apellido = ui.prompt("Apellido(s)").getResponseText().trim();
+
+    showDialog("Creando Estudiante", sheetNames.add);
+
     addEstudiante([nombre, apellido]);
+    updateSheetProtections();
+
+    updateProgress(cacheKeys.done, false);
 }
 
 /**
@@ -177,6 +182,80 @@ function setData() {
 }
 
 /**
+ * Borra los comentarios de todos los alumnos.
+ */
+function erraseComments() {
+    const ui = SpreadsheetApp.getUi();
+    const respuesta = ui.alert("¿Borrar TODOS los comentarios?", "¿Estás seguro que quieres borrar TODOS los comentarios?", ui.ButtonSet.YES_NO);
+    if (respuesta == ui.Button.NO) return;
+
+    showDialog("Borrando comentarios", sheetNames.status);
+
+    removeComments();
+
+    updateProgress(cacheKeys.done, false);
+}
+
+/**
+ * Cambia la proteción de la sección de datos.
+ */
+function toggleDatos() {
+    toggleProtected(protectedSection.datos);
+    menuUpdateProtections();
+}
+
+/**
+ * Cambia la proteción de la sección de habilidades.
+ */
+function toggleHabilidades() {
+    toggleProtected(protectedSection.habilidades);
+    menuUpdateProtections();
+}
+
+/**
+ * Cambia la proteción de la sección de observaciones.
+ */
+function toggleObservaciones() {
+    toggleProtected(protectedSection.observaciones);
+    menuUpdateProtections();
+}
+
+/**
+ * Cambia la proteción de la sección del periodo 1.
+ */
+function togglePeriodo1() {
+    toggleProtected(protectedSection.periodo1);
+    menuUpdateProtections();
+}
+
+/**
+ * Cambia la proteción de la sección del periodo 2.
+ */
+function togglePeriodo2() {
+    toggleProtected(protectedSection.periodo2);
+    menuUpdateProtections();
+}
+
+/**
+ * Cambia la proteción de la sección del periodo 3.
+ */
+function togglePeriodo3() {
+    toggleProtected(protectedSection.periodo3);
+    menuUpdateProtections();
+}
+
+/**
+ * Actualiza las secciones protegidas.
+ */
+function menuUpdateProtections() {
+    showDialog("Actualizando protecciones", sheetNames.add);
+
+    updateSheetProtections();
+
+    updateProgress(cacheKeys.done, false);
+}
+
+/**
  * Genera el reporte de la hoja actual.
  */
 function currentReport() {
@@ -189,7 +268,11 @@ function currentReport() {
         return;
     }
 
+    showDialog("Generando Reporte", sheet.getName());
+
     generateReport(sheet);
+
+    updateProgress(cacheKeys.done, false);
 }
 
 /**
@@ -200,23 +283,16 @@ function allReports() {
     const avoidSheets = Object.values(sheetNames);
     const sheets = spreadsheet.getSheets();
 
+    showDialog("Generando Reportes", sheetNames.add);
+
     for (const sheet of sheets) {
         if (avoidSheets.includes(sheet.getName())) continue;
         generateReport(sheet);
     }
+
+    updateProgress(cacheKeys.done, false);
 }
 
 
 function test() {
-    showDialog("Inicializando")
-
-    for (let i = 0; i < 10; i++) {
-        Utilities.sleep(2000);
-        if (i % 2 === 0) {
-            updateDetails(`<p>Step ${i}</p>`, true);
-        }
-        updateProgress(i * 10);
-    }
-
-    updateProgress(cacheKeys.done);
 }

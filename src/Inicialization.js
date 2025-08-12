@@ -6,14 +6,15 @@
  * Da formato e inserta la fórmula al promedio total.
  */
 function addAsignaturasToConcentrado() {
+    updateDetails("<h4>Concentrado de asignaturas:</h4>", true);
+    updateProgress(0, false);
+    updateDetails("<p>Preparando la hoja</p>", true);
+
     const spreadsheet = SpreadsheetApp.getActive();
     const addSheet = spreadsheet.getSheetByName(sheetNames.add);
     const asignaturas = getAsignaturas(true, false);
 
     const progress = 100 / 4;
-    updateDetails("<h4>Concentrado de asignaturas:</h4>", true);
-    updateProgress(0);
-    updateDetails("<p>Preparando la hoja</p>", true);
 
     // Insertamos columnas para cada materia.
     addSheet.insertColumns(4, asignaturas.length);
@@ -46,13 +47,14 @@ function addAsignaturasToConcentrado() {
  * Añade la lista de asignaturas al template para estudiantes.
  */
 function addAsignaturasToTemplate() {
+    updateDetails("<h4>Machote de estudiantes:</h4>", true);
+    updateProgress(0, false);
+
     const spreadsheet = SpreadsheetApp.getActive();
     const templateSheet = spreadsheet.getSheetByName(sheetNames.template);
     const asignaturas = getAsignaturas(false, true);
 
     const progress = Math.floor(100 / 14);
-    updateDetails("<h4>Machote de estudiantes:</h4>", true);
-    updateProgress(0);
 
     updateDetails("<p>Preparando la hoja<p/>", true);
     // Insertamos filas para las asignaturas en las diferentes secciones.
@@ -146,14 +148,15 @@ function addAsignaturasToTemplate() {
  * Añade la lista de materias a la hoja de Estado.
  */
 function addAsignaturasToStatus() {
+    updateDetails("<h4>Estatus de llenado:</h4>", true);
+    updateProgress(0, false);
+    updateDetails("<p>Preparando la hoja</p>", true);
+
     const spreadsheet = SpreadsheetApp.getActive();
     const statusSheet = spreadsheet.getSheetByName(sheetNames.status);
     const asignaturas = getAsignaturas(true, false);
 
-    updateDetails("<h4>Estatus de llenado:</h4>", true);
     const progress = Math.floor(100 / (11 + asignaturas.length));
-    updateProgress(0);
-    updateDetails("<p>Preparando la hoja</p>", true);
 
     // Si hace falta espacio para las materias, lo agregamos.
     const extraColumnsNeeded = 3 + 4 * asignaturas.length - statusSheet.getMaxColumns();
@@ -198,20 +201,20 @@ function addAsignaturasToStatus() {
         range.offset(1, 3, 1, range.getWidth() - 3)
             .clearContent().breakApart();
 
-
         updateProgress(progress, true); // x6
     }
 
 }
 
 /**
- * Crea una hoja para cada estudiante listado en la inicialización.
+ * Se prepara a añadir los estudiantes.
+ * Guarda en propiedades la lista de estudiantes y los datos.
  */
 function addEstudiantesFromInit() {
+    updateDetails("<h4>Añadiendo estudiantes:</h4>", true);
+
     const spreadsheet = SpreadsheetApp.getActive();
     const properties = PropertiesService.getDocumentProperties();
-
-    updateDetails("<h4>Añadiendo estudiantes:</h4>", true);
 
     // Obtenemos los nombres de los Datos a anexar a cada estudiante.
     const header = spreadsheet.getRangeByName(rangeNames.init.students).getValues()[0].slice(2);
@@ -226,6 +229,11 @@ function addEstudiantesFromInit() {
     splitAddingStudents();
 }
 
+/**
+ * Crea una hoja para cada estudiante listado en la inicialización.
+ * Si la creación de estudiantes toma demasiado tiempo, se difiere.
+ * Al terminar llama la función "finishInitialization".
+ */
 function splitAddingStudents() {
     const properties = PropertiesService.getDocumentProperties();
     const header = JSON.parse(properties.getProperty(propertyKeys.header));
@@ -233,7 +241,8 @@ function splitAddingStudents() {
     let currentIndex = parseInt(properties.getProperty(propertyKeys.currentIndex), 10);
 
     const startTime = Date.now();
-    const maxTime = 5 * 60 * 1000; // ~5 minutes to be safe
+    // 4 minutos la primera vez, 5 minútos en las siguientes.
+    const maxTime = 60 * 1000 * (5 - (currentIndex ? 0 : 1));
 
     while (currentIndex < students.length && (Date.now() - startTime) < maxTime) {
         const student = students[currentIndex];
@@ -258,9 +267,7 @@ function splitAddingStudents() {
     } else {
         // All done — cleanup if needed
         properties.deleteAllProperties();
-        ScriptApp.newTrigger("finishInitialization")
-            .timeBased()
-            .after(1000)
-            .create();
+        updateSheetToFinish(sheetNames.add);
+        finishInitialization();
     }
 }
