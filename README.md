@@ -90,3 +90,6 @@ El **Generador de Reportes** utiliza **dos archivos**:
 13. 🚀 **Accede a las opciones completas**
     - Una vez autorizada la ejecución, el menú cambiará y mostrará la opción:
         `🏁 Inicializar materias y alumnos.`
+
+|[MenuAuth]()|[GoogleAuth]()|[MenuInitialize]()|
+|:---:|:---:|:---:|

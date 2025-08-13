@@ -15,6 +15,7 @@ function addInitialMenu() {
     const ui = SpreadsheetApp.getUi();
     ui.createMenu(menuTitle)
         .addItem("🪪 Pedir autorización", "requestAuth")
+        .addItem("Test", "test")
         .addToUi();
 }
 
@@ -295,4 +296,9 @@ function allReports() {
 
 
 function test() {
+    var html = HtmlService.createHtmlOutputFromFile("src/dialog2")
+        .setWidth(800)
+        .setHeight(500);
+    SpreadsheetApp.getUi().showModalDialog(html, "Procesando");
+    Utilities.sleep(5000);
 }
