@@ -166,7 +166,6 @@ El **Generador de Reportes** utiliza **dos archivos**:
 
 ### 🏁 Inicialización
 
-![InitMenu](images/MenuInitialize.png)
 14. 🖱 **Ejecuta la inicialización**
     - En el menú `📃 Generador de Reportes`, selecciona la opción `🏁 Inicializar materias y alumnos`.
 15. ⏳ **Espera a que termine el proceso**
@@ -183,5 +182,84 @@ El **Generador de Reportes** utiliza **dos archivos**:
 18. 📚 **Archivo listo para uso**
     - A partir de este momento, los maestros pueden comenzar a **ingresar calificaciones y observaciones** en la hoja de cada alumno.
 
+![InitMenu](images/MenuInitialize.png)|![Dialogo](images/DialogWait.png)
+|:---:|:---:|
+
 ---
 
+## 📝 El archivo `__Template__`
+
+El **Template** es un documento de **Google Docs** que sirve como base para generar los reportes.  
+Puede tener **cualquier formato, diseño u orden**: el sistema solo busca y reemplaza **etiquetas** especiales escritas entre llaves `{}`.
+
+### 📌 Reglas generales
+- El documento debe llamarse **`__Template__`** (con exactamente ese nombre).
+- Las etiquetas deben escribirse **exactamente igual** a como se describen aquí, respetando mayúsculas, minúsculas, números y símbolos.
+- Cada etiqueta se reemplazará por la información correspondiente de la hoja de cálculo.
+
+---
+
+### 1️⃣ Datos del alumno
+En la sección **Datos** (nivel, grado, faltas, periodo, fecha, etc.) la etiqueta es simplemente el **nombre del dato** entre llaves.  
+Ejemplo: `{Fecha}`
+
+---
+
+### 2️⃣ Habilidades de aprendizaje
+Cada asignatura recibe un número según el orden en que fue creada durante la inicialización:  
+`a1` para la primera asignatura, `a2` para la segunda, etc.
+
+Para las habilidades de aprendizaje, se usa:
+```
+{a#hN}
+```
+- `a#` → número de la asignatura (ej. `a5` = quinta asignatura)
+- `hN` → número de la habilidad (1 a 4)  
+  1. Actitud  
+  2. Hábitos de estudio/trabajo  
+  3. Pensamiento crítico  
+  4. Desarrollo socioemocional  
+
+Ejemplo: `{a5h3}` = Pensamiento crítico de la quinta asignatura.
+
+---
+
+### 3️⃣ Comentarios
+Formato:
+```
+{a#c}
+```
+- `a#` → número de la asignatura  
+- `c` → comentario
+
+Ejemplo: `{a3c}` = Comentario de la tercera asignatura.
+
+💡 **Tip:** para pegar comentarios largos con párrafos, usa la **barra de fórmulas** en la parte superior de Google Sheets. Así se conservan los saltos de línea y se evita que el texto se divida en varias celdas.
+
+---
+
+### 4️⃣ Calificaciones numéricas
+Formato:
+```
+{a#pN}
+```
+- `a#` → número de la asignatura  
+- `pN` → periodo (1, 2 o 3)
+
+Ejemplo: `{a6p3}` = Calificación de la sexta asignatura en el tercer periodo.
+
+---
+
+### 5️⃣ Promedios
+- **Promedio por asignatura**:  
+  `{a#f}` = promedio final de esa asignatura  
+  Ejemplo: `{a4f}` = promedio final de la cuarta asignatura.
+
+- **Promedio por periodo**:  
+  `{fpN}` = promedio general del periodo N  
+  Ejemplo: `{fp2}` = promedio general del segundo periodo.
+
+- **Promedio final del año**:  
+  `{ff}` = promedio de promedios.
+
+---

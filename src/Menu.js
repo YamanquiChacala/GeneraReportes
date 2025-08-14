@@ -291,5 +291,5 @@ function allReports() {
 }
 
 function test() {
-
+    showWaitDialog("Inicializando");
 }
