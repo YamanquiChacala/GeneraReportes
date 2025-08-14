@@ -24,11 +24,6 @@ function addEstudiante(nombre, datos = {}) {
 
     // ===== Creación de la hoja del estudiante =====
 
-    updateDetails(`<h5>${nombreCompleto}</h5>`, true);
-    updateSheetToFinish(nombreCompleto);
-    const progres = Math.floor(100 / 34);
-    updateProgress(0, false);
-
     // Creamos la hoja del estudiante y le damos el nombre.
     const newStudentSheet = templateSheet.copyTo(spreadsheet);
     newStudentSheet.getNamedRanges().forEach(namedRange => namedRange.remove());
@@ -39,10 +34,8 @@ function addEstudiante(nombre, datos = {}) {
     const tempHabilidadesRange = spreadsheet.getRangeByName(rangeNames.template.habilities);
     const tempObservacionesRange = spreadsheet.getRangeByName(rangeNames.template.comments);
 
-    updateProgress(progres, true);
     // ===== Datos ===== 
 
-    updateDetails("<p>Datos</p>", true)
     newStudentSheet.activate();
 
     // Protejemos la hoja
@@ -53,7 +46,6 @@ function addEstudiante(nombre, datos = {}) {
     if (protection.canDomainEdit()) {
         protection.setDomainEdit(false);
     }
-    updateProgress(progres, true);
 
     // Insertamos el nombre del estudiante en la hoja.
     newStudentSheet.getRange(tempNombreRange.getRow(), tempNombreRange.getColumn(), tempNombreRange.getHeight(), tempNombreRange.getWidth())
@@ -67,17 +59,14 @@ function addEstudiante(nombre, datos = {}) {
     }
     studentDatosRange.setValues(studentDatos);
 
-    updateProgress(progres, true);
 
     // ===== Creación del estudiatne en el concentrado =====
 
-    updateDetails("<p>Concentrado</p>", true);
     addSheet.activate();
 
     // Hacemos espacio para el nuevo estudiante.
     for (const rangeName of [rangeNames.add.periodo1, rangeNames.add.periodo2, rangeNames.add.periodo3]) {
         addSheet.insertRowBefore(spreadsheet.getRangeByName(rangeName).getLastRow() - 1);
-        updateProgress(progres, true); // x3
     }
 
     // Seleccionamos los rangos después de hacer espacio para evitar errores.
@@ -97,7 +86,6 @@ function addEstudiante(nombre, datos = {}) {
     for (const range of [addPeriodo1Range, addPeriodo2Range, addPeriodo3Range]) {
         range.offset(range.getHeight() - 3, 1, 1, 2).setValues([nombre]);
         range.offset(range.getHeight() - 3, 0, 1, 1).setValue(studentNumber);
-        updateProgress(progres, true); // x3
     }
 
     // Encontramos filas con las materias, para ignorar las vacías.
@@ -108,7 +96,6 @@ function addEstudiante(nombre, datos = {}) {
     for (let i = 0; i < asignaturas.length; i++) {
         if (asignaturas[i]) asignaturasIndex.push(i);
     }
-    updateProgress(progres, true);
 
     // Obtenemos los rangos en la hoja del estudiante donde estarán las calificaciones
     const studentPeriodo1CalRangeRaw = spreadsheet.getRangeByName(rangeNames.template.periodo1);
@@ -129,7 +116,6 @@ function addEstudiante(nombre, datos = {}) {
             calFormulas[i].push(`'${nombreCompleto}'!R${range.getRow() + index}C${range.getColumn()}`);
         }
     }
-    updateProgress(progres, true);
 
     // Creamos la fórmula para obtener promedios.
     const promedioFormula = '=IFERROR(AVERAGE(R[0]C4:R[0]C[-1]),"SC")';
@@ -142,12 +128,10 @@ function addEstudiante(nombre, datos = {}) {
         range.offset(range.getHeight() - 3, range.getWidth() - 1, 1, 1)
             .setFontWeight('bold').setNumberFormat('0.0')
             .setFormulaR1C1(promedioFormula);
-        updateProgress(progres, true); //x3
     }
 
     // ===== Creación del estudiatne en el estado =====
 
-    updateDetails("<p>Estado</p>", true);
     statusSheet.activate();
 
     const statusRangeNames = [
@@ -162,7 +146,6 @@ function addEstudiante(nombre, datos = {}) {
     // Hacemos espacio para el nuevo estudiante.
     for (let rangeName of statusRangeNames) {
         statusSheet.insertRowAfter(spreadsheet.getRangeByName(rangeName).getLastRow());
-        updateProgress(progres, true); // x6
     }
 
     // Extendemos los rangos con nombre y corfregimos formato de la fila.
@@ -172,7 +155,6 @@ function addEstudiante(nombre, datos = {}) {
             namedRange.getRange().offset(1, 0, 1).setFontWeight("bold").setFontSize(9).setFontColor("black").setTextRotation(0)
                 .offset(0, 1, 1, 1).setFontWeight("normal").setHorizontalAlignment("right")
                 .offset(0, 1, 1, 1).setHorizontalAlignment("left");
-            updateProgress(progres, true); // x6
         }
     });
 
@@ -190,7 +172,6 @@ function addEstudiante(nombre, datos = {}) {
         range.offset(range.getHeight() - 1, 0, 1, 1).setFormulaR1C1(fullCheckmarkFormula);
         range.offset(range.getHeight() - 1, 1, 1, 2).setValues([nombre]);
     }
-    updateProgress(progres, true);
 
     // Creamos las fórmulas para el estado.
     const datosFormulas = [[], [], [], [], [], []];
@@ -228,13 +209,11 @@ function addEstudiante(nombre, datos = {}) {
             }
         }
     }
-    updateProgress(progres, true);
 
     // Colocamos las fórmulas (excepto observaciones) en la página de estado.
     for (const [index, range] of statusRanges.entries()) {
         if (index != indexPos.status.observaciones) {
             range.offset(range.getHeight() - 1, 3, 1, range.getWidth() - 3).setFormulasR1C1([datosFormulas[index]]);
-            updateProgress(progres, true); // x5
         }
     }
 
@@ -244,7 +223,6 @@ function addEstudiante(nombre, datos = {}) {
         statusObservacionesRange.offset(0, 3 * i, 1, 3).merge()
             .setFormulaR1C1(datosFormulas[indexPos.status.observaciones][i]);
     }
-    updateProgress(progres, true);
 }
 
 /**
@@ -255,16 +233,12 @@ function addSpace() {
     const addSheet = spreadsheet.getSheetByName(sheetNames.add);
     const statusSheet = spreadsheet.getSheetByName(sheetNames.status);
 
-    updateDetails("<h5>Añadiendo espacio</h5>", true);
-    const progress = Math.floor(100 / 15);
-    updateProgress(0, false);
     // ====== Concentrado ======
     addSheet.activate();
 
     // Hacemos espacio en el concentrado.
     for (let rangeName of [rangeNames.add.periodo1, rangeNames.add.periodo2, rangeNames.add.periodo3]) {
         addSheet.insertRowBefore(spreadsheet.getRangeByName(rangeName).getLastRow() - 1);
-        updateProgress(progress, true); // x3
     }
 
     // ===== Estado ======
@@ -282,14 +256,12 @@ function addSpace() {
     // Hacemos espacio en el estado.
     for (let rangeName of statusRangeNames) {
         statusSheet.insertRowAfter(spreadsheet.getRangeByName(rangeName).getLastRow());
-        updateProgress(progress, true); // x6
     }
 
     // Extendemos los rangos con nombre.
     statusSheet.getNamedRanges().forEach(namedRange => {
         if (statusRangeNames.includes(namedRange.getName())) {
             namedRange.setRange(namedRange.getRange().offset(0, 0, namedRange.getRange().getHeight() + 1));
-            updateProgress(progress, true); // x6
         }
     });
 }
@@ -298,14 +270,9 @@ function addSpace() {
  * Replaces the comments in all sheets with the default comment of the template.
  */
 function removeComments() {
-    updateDetails("<p>Preparando comentario base</p>", true);
-    updateProgress(0, false);
-
     const spreadsheet = SpreadsheetApp.getActive();
     const sheets = spreadsheet.getSheets();
     const avoidSheets = Object.values(sheetNames);
-
-    const progress = Math.floor(100 / (sheets.length - 3));
 
     const commentRange = spreadsheet.getRangeByName(rangeNames.template.comments);
     const defaultValues = commentRange.getValues();
@@ -317,16 +284,12 @@ function removeComments() {
         commentRange.getWidth()
     ];
 
-    updateProgress(progress, true);
-    updateDetails("<h4>Borrando comentarios</h4>", true);
     for (const sheet of sheets) {
         if (avoidSheets.includes(sheet.getName())) continue;
 
-        updateDetails(`<p>${sheet.getName()}</p>`, true);
-
         const sheetCommentsRange = sheet.getRange(...rangeParams);
+        sheetCommentsRange.offset(0, 1, sheetCommentsRange.getHeight(), sheetCommentsRange.getWidth() - 1)
+            .mergeAcross();
         sheetCommentsRange.setValues(defaultValues);
-
-        updateProgress(progress, true); // # of sheets - 4
     }
 }

@@ -6,15 +6,9 @@
  * Da formato e inserta la fórmula al promedio total.
  */
 function addAsignaturasToConcentrado() {
-    updateDetails("<h4>Concentrado de asignaturas:</h4>", true);
-    updateProgress(0, false);
-    updateDetails("<p>Preparando la hoja</p>", true);
-
     const spreadsheet = SpreadsheetApp.getActive();
     const addSheet = spreadsheet.getSheetByName(sheetNames.add);
     const asignaturas = getAsignaturas(true, false);
-
-    const progress = 100 / 4;
 
     // Insertamos columnas para cada materia.
     addSheet.insertColumns(4, asignaturas.length);
@@ -23,9 +17,6 @@ function addAsignaturasToConcentrado() {
     const periodo1Range = spreadsheet.getRangeByName(rangeNames.add.periodo1);
     const periodo2Range = spreadsheet.getRangeByName(rangeNames.add.periodo2);
     const periodo3Range = spreadsheet.getRangeByName(rangeNames.add.periodo3);
-
-    updateProgress(progress, true);
-    updateDetails("<p>Añadiendo materias</p>", true)
 
     for (const range of [periodo1Range, periodo2Range, periodo3Range]) {
         //Colocamos los nombres de las materias.
@@ -38,8 +29,6 @@ function addAsignaturasToConcentrado() {
         range.offset(range.getHeight() - 1, range.getWidth() - 1, 1, 1)
             .setFormulaR1C1('=IFERROR(AVERAGE(R[0]C4:R[0]C[-1]),"SC")')
             .setFontWeight('bold').setNumberFormat('0.0');
-
-        updateProgress(progress, true);
     }
 }
 
@@ -47,16 +36,10 @@ function addAsignaturasToConcentrado() {
  * Añade la lista de asignaturas al template para estudiantes.
  */
 function addAsignaturasToTemplate() {
-    updateDetails("<h4>Machote de estudiantes:</h4>", true);
-    updateProgress(0, false);
-
     const spreadsheet = SpreadsheetApp.getActive();
     const templateSheet = spreadsheet.getSheetByName(sheetNames.template);
     const asignaturas = getAsignaturas(false, true);
 
-    const progress = Math.floor(100 / 14);
-
-    updateDetails("<p>Preparando la hoja<p/>", true);
     // Insertamos filas para las asignaturas en las diferentes secciones.
     templateSheet.insertRowsAfter(spreadsheet.getRangeByName(rangeNames.template.habilities).getRow(), asignaturas.length);
     templateSheet.insertRowsAfter(spreadsheet.getRangeByName(rangeNames.template.comments).getRow(), asignaturas.length);
@@ -68,7 +51,6 @@ function addAsignaturasToTemplate() {
     templateSheet.getNamedRanges().forEach(namedRange => {
         if (namedRange.getName() == rangeNames.template.habilities || namedRange.getName() == rangeNames.template.comments) {
             namedRange.setRange(namedRange.getRange().offset(0, 0, asignaturas.length + 1, namedRange.getRange().getWidth()));
-            updateProgress(progress, true); // x2
         }
     });
 
@@ -82,29 +64,24 @@ function addAsignaturasToTemplate() {
     const promedioTotalRange = spreadsheet.getRangeByName(rangeNames.template.promedio);
 
     // Ponemos los nombres de las materias.
-    updateDetails("<p>Añadiendo materias</p>", true);
     for (const range of [habilidadesRange, observacionesRange, periodo1Range, periodo2Range, periodo3Range]) {
         range.offset(1, 0, asignaturas.length, 1).setValues(asignaturas)
             .setFontColor('black').setFontSize(9);
-        updateProgress(progress, true); // x5
     }
 
     // ===== Formato de Habilidades y Observaciones =====
-    updateDetails("<p>Dando formato</p>", true);
 
     // Definimos los valores posibles y formato para las Habilidades.
     const habilidadesDataValidation = SpreadsheetApp.newDataValidation()
         .requireValueInList(['E', 'B', 'S', 'R'], true).build();
     habilidadesRange.offset(1, 1, asignaturas.length, habilidadesRange.getWidth() - 1)
         .setFontColor('black').setFontSize(9).setFontWeight('normal').setDataValidation(habilidadesDataValidation);
-    updateProgress(progress, true);
 
     // Damos espacio y formato para los comentarios.
     observacionesRange.offset(1, 1, asignaturas.length, observacionesRange.getWidth() - 1)
         .mergeAcross().setFontColor('black').setFontSize(9).setFontWeight('normal').setHorizontalAlignment('left')
         .setWrapStrategy(SpreadsheetApp.WrapStrategy.WRAP)
         .setValue("Escribe aquí tus comentarios, comienza con un comentario positivo, seguido de tus observaciones. Concluye con un comentario alentador, felicitaciones y/o recomendaciones. ¡No te olvides de revisar la ortografía y redacción!\nFORTALEZAS:\nÁREAS DE OPORTUNIDAD:\nSUGERENCIAS:");
-    updateProgress(progress, true);
 
     // Quitamos formato y contenido a lineas en blanco.
     const blankLines = [];
@@ -116,11 +93,8 @@ function addAsignaturasToTemplate() {
         habilidadesRange.offset(1 + blankLine, 1, 1, habilidadesRange.getWidth() - 1).clearDataValidations();
         observacionesRange.offset(1 + blankLine, 1, 1, observacionesRange.getWidth() - 1).setValue("").breakApart();
     }
-    updateProgress(progress, true);
 
     // ===== Formato de Calificaciones =====
-
-    updateDetails("<p>Asignando fórmulas</p>", true);
 
     // Fórmula para la calificación de cada materia, en la hoja están los ponderados, escritos en blanco para que no sean visibles.
     const promedioFormula = `IFERROR(ROUND(AVERAGE.WEIGHTED(R[0]C[-3]:R[0]C[-1],R${ponderadoRange.getRow()}C${ponderadoRange.getColumn()}:R${ponderadoRange.getLastRow()}C${ponderadoRange.getLastColumn()})))`;
@@ -132,7 +106,6 @@ function addAsignaturasToTemplate() {
         // Copiamos la fórmula y damos formato a la calificación.
         range.offset(1, range.getWidth() - 1, asignaturas.length, 1)
             .setFontColor('black').setFontSize(9).setFontWeight('bold').setFormulaR1C1(promedioFormula);
-        updateProgress(progress, true); // x3
     }
 
     // Extendemos la fórmula del promedio total
@@ -140,7 +113,6 @@ function addAsignaturasToTemplate() {
     promedioTotalRange.offset(1, 0, promedioTotalRange.getHeight() - 3, 1)
         .setFontColor('black').setFontSize(9).setFontWeight('bold').setNumberFormat('0.0')
         .setFormulaR1C1(promedioTotalFormula);
-    updateProgress(progress, true);
 }
 
 
@@ -148,25 +120,17 @@ function addAsignaturasToTemplate() {
  * Añade la lista de materias a la hoja de Estado.
  */
 function addAsignaturasToStatus() {
-    updateDetails("<h4>Estatus de llenado:</h4>", true);
-    updateProgress(0, false);
-    updateDetails("<p>Preparando la hoja</p>", true);
-
     const spreadsheet = SpreadsheetApp.getActive();
     const statusSheet = spreadsheet.getSheetByName(sheetNames.status);
     const asignaturas = getAsignaturas(true, false);
-
-    const progress = Math.floor(100 / (11 + asignaturas.length));
 
     // Si hace falta espacio para las materias, lo agregamos.
     const extraColumnsNeeded = 3 + 4 * asignaturas.length - statusSheet.getMaxColumns();
     if (extraColumnsNeeded > 0) {
         statusSheet.insertColumnsAfter(statusSheet.getMaxColumns(), extraColumnsNeeded);
     }
-    updateProgress(progress, true);
 
     // Escribimos los nombres de las materias.
-    updateDetails("<p>Añadiendo las materias</p>", true)
     for (let i = 0; i < asignaturas.length; i++) {
         let range = spreadsheet.getRangeByName(rangeNames.status.habilidades);
         range.offset(0, 3 + 4 * i, 2, 4).mergeAcross().setValue(asignaturas[i]);
@@ -174,19 +138,15 @@ function addAsignaturasToStatus() {
             range = spreadsheet.getRangeByName(rangeName);
             range.offset(0, 3 + 3 * i, 2, 3).mergeAcross().setValue(asignaturas[i]);
         }
-        updateProgress(progress, true); // x#asignaturas
     }
 
     // Ajustamos los rangos.
-    updateDetails("<p>Ajustando formato</p>", true)
     statusSheet.getNamedRanges().forEach(namedRange => {
         if (namedRange.getName() == rangeNames.status.habilidades) {
             namedRange.setRange(namedRange.getRange().offset(0, 0, 1, 3 + 4 * asignaturas.length));
-            updateProgress(progress, true); // x1
         }
         if ([rangeNames.status.observaciones, rangeNames.status.periodo1, rangeNames.status.periodo2, rangeNames.status.periodo3].includes(namedRange.getName())) {
             namedRange.setRange(namedRange.getRange().offset(0, 0, 1, 3 + 3 * asignaturas.length));
-            updateProgress(progress, true); // x3
         }
     });
 
@@ -200,8 +160,6 @@ function addAsignaturasToStatus() {
             .setBorder(false, false, false, false, true, false, "#efefef", SpreadsheetApp.BorderStyle.SOLID);
         range.offset(1, 3, 1, range.getWidth() - 3)
             .clearContent().breakApart();
-
-        updateProgress(progress, true); // x6
     }
 
 }
@@ -211,8 +169,6 @@ function addAsignaturasToStatus() {
  * Guarda en propiedades la lista de estudiantes y los datos.
  */
 function addEstudiantesFromInit() {
-    updateDetails("<h4>Añadiendo estudiantes:</h4>", true);
-
     const spreadsheet = SpreadsheetApp.getActive();
     const properties = PropertiesService.getDocumentProperties();
 
@@ -224,7 +180,7 @@ function addEstudiantesFromInit() {
 
     properties.setProperty(propertyKeys.header, JSON.stringify(header));
     properties.setProperty(propertyKeys.students, JSON.stringify(students));
-    properties.setProperty(propertyKeys.currentIndex, "0");
+    properties.setProperty(propertyKeys.studentIndex, "0");
 
     splitAddingStudents();
 }
@@ -235,10 +191,12 @@ function addEstudiantesFromInit() {
  * Al terminar llama la función "finishInitialization".
  */
 function splitAddingStudents() {
+    const spreadsheet = SpreadsheetApp.getActive();
+    const alertSheet = spreadsheet.getSheetByName(sheetNames.alert);
     const properties = PropertiesService.getDocumentProperties();
     const header = JSON.parse(properties.getProperty(propertyKeys.header));
     const students = JSON.parse(properties.getProperty(propertyKeys.students));
-    let currentIndex = parseInt(properties.getProperty(propertyKeys.currentIndex), 10);
+    let currentIndex = parseInt(properties.getProperty(propertyKeys.studentIndex), 10);
 
     const startTime = Date.now();
     // 4 minutos la primera vez, 5 minútos en las siguientes.
@@ -256,18 +214,19 @@ function splitAddingStudents() {
         currentIndex++;
     }
 
-    properties.setProperty("currentIndex", String(currentIndex));
+    properties.setProperty(propertyKeys.studentIndex, String(currentIndex));
 
     if (currentIndex < students.length) {
         // More to do: queue another run
+        alertSheet.showSheet();
+        alertSheet.activate();
         ScriptApp.newTrigger("splitAddingStudents")
             .timeBased()
-            .after(1000) // run after 1 second
+            .after(1000)
             .create();
     } else {
-        // All done — cleanup if needed
-        properties.deleteAllProperties();
-        updateSheetToFinish(sheetNames.add);
+        // All done — cleanup
         finishInitialization();
+        alertSheet.hideSheet();
     }
 }

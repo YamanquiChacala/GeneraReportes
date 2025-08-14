@@ -101,7 +101,7 @@ function initialize() {
 
     if (!initSheet || !addSheet || !statusSheet || !templateSheet || initSheet.isSheetHidden()) return;
 
-    showDialog("Inicializando", sheetNames.add);
+    showWaitDialog("Inicializando");
 
     const scriptProperties = PropertiesService.getScriptProperties();
 
@@ -131,8 +131,6 @@ function finishInitialization() {
     initSheet.hideSheet();
     templateSheet.hideSheet();
     statusSheet.setRowHeight(1, 65);
-
-    updateProgress(cacheKeys.done, false);
 }
 
 /**
@@ -147,12 +145,10 @@ function addStudent() {
     const nombre = ui.prompt("Nombre(s)", "Sin apellidos", ui.ButtonSet.OK).getResponseText().trim();
     const apellido = ui.prompt("Apellido(s)").getResponseText().trim();
 
-    showDialog("Creando Estudiante", sheetNames.add);
+    showWaitDialog("Creando Estudiante");
 
     addEstudiante([nombre, apellido]);
     updateSheetProtections();
-
-    updateProgress(cacheKeys.done, false);
 }
 
 /**
@@ -190,11 +186,9 @@ function erraseComments() {
     const respuesta = ui.alert("¿Borrar TODOS los comentarios?", "¿Estás seguro que quieres borrar TODOS los comentarios?", ui.ButtonSet.YES_NO);
     if (respuesta == ui.Button.NO) return;
 
-    showDialog("Borrando comentarios", sheetNames.status);
+    showWaitDialog("Borrando comentarios");
 
     removeComments();
-
-    updateProgress(cacheKeys.done, false);
 }
 
 /**
@@ -249,11 +243,9 @@ function togglePeriodo3() {
  * Actualiza las secciones protegidas.
  */
 function menuUpdateProtections() {
-    showDialog("Actualizando protecciones", sheetNames.add);
+    showWaitDialog("Actualizando protecciones");
 
     updateSheetProtections();
-
-    updateProgress(cacheKeys.done, false);
 }
 
 /**
@@ -269,11 +261,9 @@ function currentReport() {
         return;
     }
 
-    showDialog("Generando Reporte", sheet.getName());
+    showWaitDialog("Generando Reporte");
 
     generateReport(sheet);
-
-    updateProgress(cacheKeys.done, false);
 }
 
 /**
@@ -281,24 +271,25 @@ function currentReport() {
  */
 function allReports() {
     const spreadsheet = SpreadsheetApp.getActive();
+    const properties = PropertiesService.getDocumentProperties();
     const avoidSheets = Object.values(sheetNames);
     const sheets = spreadsheet.getSheets();
 
-    showDialog("Generando Reportes", sheetNames.add);
+    showWaitDialog("Generando Reportes");
+
+    const studentSheetNames = [];
 
     for (const sheet of sheets) {
         if (avoidSheets.includes(sheet.getName())) continue;
-        generateReport(sheet);
+        studentSheetNames.push(sheet.getName());
     }
 
-    updateProgress(cacheKeys.done, false);
+    properties.setProperty(propertyKeys.sheets, JSON.stringify(studentSheetNames));
+    properties.setProperty(propertyKeys.sheetIndex, "0");
+
+    splitGenerateReports();
 }
 
-
 function test() {
-    var html = HtmlService.createHtmlOutputFromFile("src/dialog2")
-        .setWidth(800)
-        .setHeight(500);
-    SpreadsheetApp.getUi().showModalDialog(html, "Procesando");
-    Utilities.sleep(5000);
+
 }

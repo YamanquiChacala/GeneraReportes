@@ -4,14 +4,9 @@
  * qué secciones deben estar protegidas.
  */
 function updateSheetProtections() {
-    updateDetails("<h4>Actualizando secciones protegidas</h4>", true);
-    updateProgress(0, false);
-
     const spreadsheet = SpreadsheetApp.getActive();
     const sheets = spreadsheet.getSheets();
     const avoidSheets = Object.values(sheetNames);
-
-    const progress = Math.floor(100 / (sheets.length - 3));
 
     const sectionNames = [
         rangeNames.template.data,
@@ -29,8 +24,6 @@ function updateSheetProtections() {
         .getValues().flat()
         .map(value => !!value);
 
-    updateDetails("<p>Creando rangos a proteger</p>", true);
-
     /** @type {[number, number, number, number][]} */
     const unprotectedRangeBlocks = [];
 
@@ -40,34 +33,28 @@ function updateSheetProtections() {
         const range = spreadsheet.getRangeByName(sectionName);
 
         if (sectionName === rangeNames.template.data) {
-            unprotectedRangeBlocks.push([range.getRow(), 2, range.getHeight(), 1]);
+            unprotectedRangeBlocks.push([range.getRow(), 2, range.getHeight(), 4]);
             continue;
         }
 
         let startRow = range.getRow() + 1;
         let width = 3;
 
-        if (sectionName === rangeNames.template.habilities) {
+        if ([rangeNames.template.comments, rangeNames.template.habilities].includes(sectionName)) {
             width = 4;
-        }
-        if (sectionName === rangeNames.template.comments) {
-            width = 1;
         }
 
         unprotectedRangeBlocks.push(...getContigousBlocks(asignaturasMask, startRow, 2, width));
     }
-    updateProgress(progress, true);
 
     for (const sheet of sheets) {
         if (avoidSheets.includes(sheet.getName())) continue;
-        updateDetails(`<p>Protegiendo ${sheet.getName()}</p>`, true);
         const unprotectedRanges = [];
         for (const rangeBlock of unprotectedRangeBlocks) {
             unprotectedRanges.push(sheet.getRange(...rangeBlock));
         }
         const protection = sheet.getProtections(SpreadsheetApp.ProtectionType.SHEET)[0];
         protection.setUnprotectedRanges(unprotectedRanges);
-        updateProgress(progress, true); // sheets.lenght - 4
     }
 }
 

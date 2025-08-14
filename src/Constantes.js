@@ -13,7 +13,8 @@ const sheetNames = {
     init: "Initialization",
     template: "Template",
     add: "Concentrado",
-    status: "Estado"
+    status: "Estado",
+    alert: "Alerta"
 };
 
 /** Datos a proteger */
@@ -70,17 +71,11 @@ const indexPos = {
     }
 }
 
-/** Para el cache */
-const cacheKeys = {
-    progress: "progress",
-    details: "details",
-    sheetToFinish: "sheetToFinish",
-    done: -1,
-};
-
 /** Para las propiedades */
 const propertyKeys = {
     students: "students",
     header: "header",
-    currentIndex: "currentIndex",
+    studentIndex: "currentIndex",
+    sheets: "sheets",
+    sheetIndex: "sheetIndex",
 };

@@ -11,8 +11,7 @@ function generateReport(sheet) {
 
     if (!reportFile) return;
 
-    updateDetails(`<p>Reporte de ${name}</p>`, true);
-    updateProgress(0, false);
+    sheet.activate();
 
     const sheetData = getValueDictionary(sheet);
 
@@ -20,8 +19,6 @@ function generateReport(sheet) {
     const reportText = reportDoc.getBody();
 
     const keys = Object.keys(sheetData);
-
-    const progress = Math.floor(100 / keys.length);
 
     for (const key of keys) {
         if (key != 'Faltas' && (sheetData[key] == 'R' || sheetData[key] < 6)) {
@@ -38,8 +35,6 @@ function generateReport(sheet) {
             }
         }
         reportText.replaceText(`{${key}}`, sheetData[key]);
-
-        updateProgress(progress, true);
     }
     reportDoc.saveAndClose();
 }
@@ -181,4 +176,41 @@ function getValueDictionary(sheet) {
     valores['ff'] = promedioCals[promedioCals.length - 1][0];
 
     return valores;
+}
+
+/**
+ * Genera todos los reportes, si tarda más de 5 minútos, los sigue
+ * generando en un trigger.
+ */
+function splitGenerateReports() {
+    const spreadsheet = SpreadsheetApp.getActive();
+    const alertSheet = spreadsheet.getSheetByName(sheetNames.alert);
+    const properties = PropertiesService.getDocumentProperties();
+    const studentSheetNames = JSON.parse(properties.getProperty(propertyKeys.sheets));
+    let currentIndex = parseInt(properties.getProperty(propertyKeys.sheetIndex), 10);
+
+    const startTime = Date.now();
+    // 4 minutos la primera vez, 5 minútos en las siguientes.
+    const maxTime = 60 * 1000 * (5 - (currentIndex ? 0 : 1));
+
+    while (currentIndex < studentSheetNames.length && (Date.now() - startTime) < maxTime) {
+        const sheet = spreadsheet.getSheetByName(studentSheetNames[currentIndex]);
+        generateReport(sheet);
+        currentIndex++;
+    }
+
+    properties.setProperty(propertyKeys.sheetIndex, String(currentIndex));
+
+    if (currentIndex < studentSheetNames.length) {
+        // More to do: queue another run
+        alertSheet.showSheet();
+        alertSheet.activate();
+        ScriptApp.newTrigger("splitGenerateReports")
+            .timeBased()
+            .after(1000)
+            .create();
+    } else {
+        // All done - Clean up
+        alertSheet.hideSheet();
+    }
 }

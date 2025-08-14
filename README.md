@@ -1,27 +1,94 @@
-<p align="center" width="100%">
-    <img src=images/Logo.png>
-</p>
+<div align="center" width="100%">
 
-# 📃 Generador de reportes
+![image](images/Logo.png)
+</div>
 
-Un script desarrollado en **Google Apps Script** para **automatizar** y **simplificar** la creación de reportes de calificaciones de alumnos en **Google Sheets**.
+# 📃 Generador de Reportes  
 
-Permite **gestionar listas de estudiantes** 📋, **organizar la información por periodos** 📅, **proteger secciones para evitar errores** 🔒 y **generar reportes individuales o masivos** 📄 de forma rápida y precisa.
+Un script desarrollado en **Google Apps Script** para **automatizar** y **simplificar** la creación de reportes de calificaciones de alumnos en **Google Sheets**.  
 
-## ✨ Características
+Permite **gestionar listas de estudiantes** 📋, **organizar la información por periodos** 📅, **proteger secciones para evitar errores** 🔒 y **generar reportes individuales o masivos** 📄 de forma rápida y precisa.  
 
-- ⚡ **Inicialización sencilla** a partir de una lista de alumnos.
-- 📄 **Generación automática** de una página individual para cada estudiante.
-- 📊 **Concentrado general** con calificaciones y promedios.
-- 📈 **Seguimiento del progreso** al registrar calificaciones.
-- 🔒 **Control de acceso por secciones** en las hojas de cada estudiante.
-- 📝 **Creación automática de reportes** a partir de un machote en Google Docs.
+## ✨ Características  
 
-## Guía de inicio
+- ⚡ **Inicialización sencilla** a partir de una lista de alumnos.  
+- 📄 **Generación automática** de una página individual para cada estudiante.  
+- 📊 **Concentrado general** con calificaciones y promedios.  
+- 📈 **Seguimiento del progreso** al registrar calificaciones.  
+- 🔒 **Control de acceso por secciones** en las hojas de cada estudiante.  
+- 📝 **Creación automática de reportes** a partir de un machote en Google Docs.  
+
+## 👥 Roles de uso  
+
+Este sistema está diseñado para dos tipos de usuarios:  
+
+- **👩‍🏫 Docentes**  
+    - Acceden únicamente a las hojas individuales de sus estudiantes.  
+    - Registran calificaciones, observaciones y otros datos solicitados.  
+    - No necesitan interactuar con el menú personalizado del script.  
+
+- **🛠 Administradores**  
+    - Configuran el archivo inicial y realizan cambios en la estructura.  
+    - Usan el menú **`📃 Generador de Reportes`** para inicializar, agregar estudiantes, borrar datos, proteger secciones y generar reportes.  
+    - Son responsables de mantener el correcto funcionamiento del sistema.  
+
+---
+
+## 👩‍🏫 Guía para Docentes  
+
+En este sistema, las partes que **no deben modificarse** están protegidas automáticamente.  
+Incluso dentro de las hojas de cada alumno, **solo las áreas donde los docentes deben introducir información** estarán desbloqueadas para edición.  
+
+Aun así, los docentes pueden consultar otras hojas:  
+- **`Concentrado`** 📊 – Para verificar calificaciones globales.  
+- **`Estado`** ✅ – Para confirmar qué datos ya se han completado y cuáles faltan.  
+
+### 📄 Estructura de la hoja de cada alumno  
+
+Cada hoja de alumno está dividida en **secciones**.  
+Un administrador puede dar o quitar permisos de edición para cada sección:  
+
+1. **📌 Datos** *(información general)*  
+    - Incluye: **Nivel**, **Grado**, **Faltas**, **Periodo**, **Fecha**, y cualquier otra información que se quiera agregar.  
+    - Normalmente los docentes **no cambian nada** aquí, salvo **Faltas** cuando sea necesario.  
+
+2. **🧠 Habilidades de aprendizaje**  
+    - Evaluación en: **Actitud**, **Hábitos de estudio/trabajo**, **Pensamiento crítico** y **Desarrollo socioemocional**.  
+    - Valores: **E** (Excelente), **B** (Bueno), **S** (Suficiente), **R** (Requiere trabajo).  
+
+|![Datos](images/StudentDatos.png)|![Habilidades](images/StudentHabilidades.png)|
+|:---:|:---:|
+
+3. **💬 Comentarios**  
+    - Espacio para observaciones sobre el alumno.  
+    - 💡 **Consejo importante**:  
+        - Escriba y revise el texto en otro programa. (*Es importante revisar la ortografía*) 
+        - Pegue el texto **en la barra de fórmulas** (arriba) para que se respeten los párrafos y el formato.  
+        - Si se pega directamente en la celda, cada párrafo podría ir a una celda distinta y desordenar el formato.
+
+4. **📅 Evaluaciones del año** *(tres secciones, una por cada periodo)*  
+    - En cada evaluación, calificar (0 a 10) en:  
+        - Desempeño y aprendizaje  
+        - Proyectos y evaluaciones  
+        - Asistencia y puntualidad  
+
+![Comentarios](images/StudentComentarios.png)|![Calificaciones](images/StudentGrades.png)
+|:---:|:---:|
+
+### 📌 Notas finales  
+- El cálculo de **promedios** y la verificación de que todo esté listo para el reporte se realiza **automáticamente**.  
+- Los docentes **solo necesitan ingresar calificaciones y comentarios** en las áreas desbloqueadas.  
+- No es necesario modificar fórmulas ni celdas protegidas.
+
+---
+---
+
+## 🚀 Guía de inicio
+### *(Solo para administradores)*
 
 El **Generador de Reportes** utiliza **dos archivos**:
 - 📄 **Hoja de cálculo** – donde se registran y consultan las calificaciones. Puede tener cualquier nombre.
-- 📝 **Machote de reporte** – documento base para generar los reportes, con el nombre exacto `__Template__`.
+- 📝 **Machote de reporte** – documento base para generar los reportes, con el nombre exacto **`__Template__`**.
 
 ### 🛠 Creación de los archivos
 
@@ -91,5 +158,30 @@ El **Generador de Reportes** utiliza **dos archivos**:
     - Una vez autorizada la ejecución, el menú cambiará y mostrará la opción:
         `🏁 Inicializar materias y alumnos.`
 
-|[MenuAuth]()|[GoogleAuth]()|[MenuInitialize]()|
-|:---:|:---:|:---:|
+|![MenuAuth](images/MenuAuth.png)|![GoogleAuth1](images/GoogleAuth1.png)|
+|:---:|:---:|
+
+|![GoogleAuth2](images/GoogleAuth2.png)|![GoogleAuth3](images/GoogleAuth3.png)|
+|:---:|:---:|
+
+### 🏁 Inicialización
+
+![InitMenu](images/MenuInitialize.png)
+14. 🖱 **Ejecuta la inicialización**
+    - En el menú `📃 Generador de Reportes`, selecciona la opción `🏁 Inicializar materias y alumnos`.
+15. ⏳ **Espera a que termine el proceso**
+    - El proceso puede tardar **varios minutos**.
+    - No cierres la hoja de cálculo mientras esté en ejecución.
+16. 📢 **Atiende la ventana de aviso**
+    - Aparecerá una ventana recordándote que no debes cerrar la hoja hasta que finalice el proceso.
+17. ✅ **Verifica los cambios**
+    - Una vez que el script termine:
+        - La hoja `Initialization` se ocultará.
+        - Cada alumno tendrá su propia hoja individual.
+        - En la hoja `Concentrado` podrás ver calificaciones y promedios generales.
+        - En la hoja `Estado` podrás ver qué datos ya están completos o faltan en cada hoja de alumno.
+18. 📚 **Archivo listo para uso**
+    - A partir de este momento, los maestros pueden comenzar a **ingresar calificaciones y observaciones** en la hoja de cada alumno.
+
+---
+
