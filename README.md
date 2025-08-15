@@ -5,9 +5,9 @@
 
 # 📃 Generador de Reportes  
 
-Un script desarrollado en **Google Apps Script** para **automatizar** y **simplificar** la creación de reportes de calificaciones de alumnos en **Google Sheets**.  
+Un script desarrollado en **Google Apps Script** para **automatizar** y **simplificar** la creación de reportes de calificaciones de alumnos en **Google Sheets**.
 
-Permite **gestionar listas de estudiantes** 📋, **organizar la información por periodos** 📅, **proteger secciones para evitar errores** 🔒 y **generar reportes individuales o masivos** 📄 de forma rápida y precisa.  
+Permite **gestionar listas de estudiantes** 📋, **organizar la información por periodos** 📅, **proteger secciones para evitar errores** 🔒 y **generar reportes individuales o masivos** 📄 de forma rápida y precisa.
 
 ## ✨ Características  
 
@@ -16,7 +16,9 @@ Permite **gestionar listas de estudiantes** 📋, **organizar la información po
 - 📊 **Concentrado general** con calificaciones y promedios.  
 - 📈 **Seguimiento del progreso** al registrar calificaciones.  
 - 🔒 **Control de acceso por secciones** en las hojas de cada estudiante.  
-- 📝 **Creación automática de reportes** a partir de un machote en Google Docs.  
+- 📝 **Creación automática de reportes** a partir de una plantilla en Google Docs.  
+
+---
 
 ## 👥 Roles de uso  
 
@@ -34,6 +36,8 @@ Este sistema está diseñado para dos tipos de usuarios:
 
 ---
 
+![Separator](images/HorizontalLine.png)
+
 ## 👩‍🏫 Guía para Docentes  
 
 En este sistema, las partes que **no deben modificarse** están protegidas automáticamente.  
@@ -43,18 +47,20 @@ Aun así, los docentes pueden consultar otras hojas:
 - **`Concentrado`** 📊 – Para verificar calificaciones globales.  
 - **`Estado`** ✅ – Para confirmar qué datos ya se han completado y cuáles faltan.  
 
+---
+
 ### 📄 Estructura de la hoja de cada alumno  
 
 Cada hoja de alumno está dividida en **secciones**.  
 Un administrador puede dar o quitar permisos de edición para cada sección:  
 
 1. **📌 Datos** *(información general)*  
-    - Incluye: **Nivel**, **Grado**, **Faltas**, **Periodo**, **Fecha**, y cualquier otra información que se quiera agregar.  
+    - Incluye: **Nombre(s)**, **Apellidos**, **Nivel**, **Grado**, **Faltas**, **Periodo**, **Fecha**, y cualquier otra información que se quiera agregar.  
     - Normalmente los docentes **no cambian nada** aquí, salvo **Faltas** cuando sea necesario.  
 
 2. **🧠 Habilidades de aprendizaje**  
     - Evaluación en: **Actitud**, **Hábitos de estudio/trabajo**, **Pensamiento crítico** y **Desarrollo socioemocional**.  
-    - Valores: **E** (Excelente), **B** (Bueno), **S** (Suficiente), **R** (Requiere trabajo).  
+    - Valores: **E** (Excelente), **B** (Bueno), **S** (Suficiente), **R** (Requiere apoyo).  
 
 |![Datos](images/StudentDatos.png)|![Habilidades](images/StudentHabilidades.png)|
 |:---:|:---:|
@@ -81,14 +87,17 @@ Un administrador puede dar o quitar permisos de edición para cada sección:
 - No es necesario modificar fórmulas ni celdas protegidas.
 
 ---
----
+
+![Separator](images/HorizontalLine.png)
 
 ## 🚀 Guía de inicio
 ### *(Solo para administradores)*
 
 El **Generador de Reportes** utiliza **dos archivos**:
 - 📄 **Hoja de cálculo** – donde se registran y consultan las calificaciones. Puede tener cualquier nombre.
-- 📝 **Machote de reporte** – documento base para generar los reportes, con el nombre exacto **`__Template__`**.
+- 📝 **Plantilla de reportes** – documento base para generar los reportes, con el nombre exacto **`__Template__`**.
+
+---
 
 ### 🛠 Creación de los archivos
 
@@ -102,15 +111,17 @@ El **Generador de Reportes** utiliza **dos archivos**:
 2. 📑 **Haz copias de los archivos base**
     - Abre cada enlace y selecciona **"Hacer una copia"** en Google Drive:
         - [📄 Hoja de cálculo](https://docs.google.com/spreadsheets/d/1WbxAkBY3VWJAXX0XvkNK8EL00SJkToOg0IrvBvZsUM8/copy)
-        - [📝 Machote de documento](https://docs.google.com/document/d/1NwaMDAemmDlTmx3bFkm11032FXVUIrooJdXxkrgC2G4/copy)
+        - [📝 Plantilla de reportes](https://docs.google.com/document/d/1NwaMDAemmDlTmx3bFkm11032FXVUIrooJdXxkrgC2G4/copy)
 3. 📂 **Mueve ambos archivos a la carpeta creada**
-    - Esto asegura que el script pueda encontrar el machote y los datos fácilmente.
-4. ⚠️ **Verifica el nombre del machote**
+    - Esto asegura que el script pueda encontrar la plantilla y los datos fácilmente.
+4. ⚠️ **Verifica el nombre de la plantilla**
     - La **hoja de cálculo** puede renombrarse como quieras.
-    - El **machote de documento** debe llamarse **exactamente**: `__Template__` (con doble guion bajo al inicio y al final).
+    - La **plantilla de reportes** debe llamarse **exactamente**: `__Template__` (con doble guion bajo al inicio y al final).
 
 |![CreateCopy](images/CopyFile.png)|![MoveFile](images/MoveFile.png)|![Confirm](images/MoveFileConfirm.png)|
 |:---:|:---:|:---:|
+
+---
 
 ### 👩‍🏫 Preparación de alumnos
 
@@ -123,6 +134,8 @@ El **Generador de Reportes** utiliza **dos archivos**:
         - **Apellido(s)**
         - **Otros datos** (si se requieren)
     - Cada fila corresponde a un alumno.
+
+---
 
 ### 📚 Preparación de materias
 
@@ -139,6 +152,7 @@ El **Generador de Reportes** utiliza **dos archivos**:
 |![Pestañas](images/Pestañas.png)|![Estudiantes](images/TablaEstudiantes.png)|![Materias](images/TablaMaterias.png)|
 |:---:|:---:|:---:|
 
+---
 
 ### 🔑 Pedir autorización
 
@@ -164,6 +178,8 @@ El **Generador de Reportes** utiliza **dos archivos**:
 |![GoogleAuth2](images/GoogleAuth2.png)|![GoogleAuth3](images/GoogleAuth3.png)|
 |:---:|:---:|
 
+---
+
 ### 🏁 Inicialización
 
 14. 🖱 **Ejecuta la inicialización**
@@ -187,40 +203,70 @@ El **Generador de Reportes** utiliza **dos archivos**:
 
 ---
 
-## 📝 El archivo `__Template__`
+![Separator](images/HorizontalLine.png)
 
-El **Template** es un documento de **Google Docs** que sirve como base para generar los reportes.  
-Puede tener **cualquier formato, diseño u orden**: el sistema solo busca y reemplaza **etiquetas** especiales escritas entre llaves `{}`.
+## 📝 Plantilla de reportes
+
+La plantilla es un documento de **Google Docs** que sirve como base para generar los reportes.  
+Puede tener **cualquier formato, diseño u orden**; el sistema solo busca y reemplaza **etiquetas** especiales escritas entre llaves **`{}`**.
+
+---
 
 ### 📌 Reglas generales
-- El documento debe llamarse **`__Template__`** (con exactamente ese nombre).
-- Las etiquetas deben escribirse **exactamente igual** a como se describen aquí, respetando mayúsculas, minúsculas, números y símbolos.
-- Cada etiqueta se reemplazará por la información correspondiente de la hoja de cálculo.
+
+- La plantilla debe llamarse **`__Template__`** (con exactamente ese nombre, rodeado entre pares de guiones bajos).
+- Las etiquetas deben escribirse **exactamente** a como se describen aquí, respetando letras, números y símbolos.
+- Cada etiqueta se reemplazará por la información correspondiente de la hoja del alumno.
+
+![Plantilla](images/Folder.png)|![Asignaturas](images/TablaMaterias.png)
+|:---:|:---:|
+
+---
+
+### ⚠️ Importante: orden de las asignaturas
+
+El **orden de las asignaturas** en las etiquetas **debe coincidir exactamente** con el orden en que fueron configuradas en la hoja de cálculo al momento de la inicialización.
+
+Por ejemplo, si en la hoja se registraron así:
+1. **Matemáticas**  
+2. **Ciencias**  
+3. **Historia**  
+
+Entonces:
+- Matemáticas siempre será **`a1`**
+- Ciencias siempre será **`a2`**
+- Historia siempre será **`a3`**
+
+Si en la plantilla usas un número distinto al configurado en la hoja, el dato **se mostrará en el lugar equivocado** en el reporte.
+
+💡 **Consejo:** antes de editar la **📝 plantilla**, revisa en la **📄 hoja de cálculo** el orden exacto de las asignaturas.
 
 ---
 
 ### 1️⃣ Datos del alumno
-En la sección **Datos** (nivel, grado, faltas, periodo, fecha, etc.) la etiqueta es simplemente el **nombre del dato** entre llaves.  
-Ejemplo: `{Fecha}`
+
+En la sección **Datos** (Nivel, Grado, Faltas, Periodo, Fecha, etc.) la etiqueta es simplemente el **nombre del dato** entre llaves.  
+Ejemplo: **`{Fecha}`**
+
+![templateDatos](images/templateDatos.png)
 
 ---
 
 ### 2️⃣ Habilidades de aprendizaje
-Cada asignatura recibe un número según el orden en que fue creada durante la inicialización:  
-`a1` para la primera asignatura, `a2` para la segunda, etc.
-
-Para las habilidades de aprendizaje, se usa:
+Formato
 ```
-{a#hN}
+{a#h#}
 ```
 - `a#` → número de la asignatura (ej. `a5` = quinta asignatura)
-- `hN` → número de la habilidad (1 a 4)  
-  1. Actitud  
-  2. Hábitos de estudio/trabajo  
-  3. Pensamiento crítico  
-  4. Desarrollo socioemocional  
+- `h#` → número de la habilidad (1 a 4)  
+  1 -  Actitud  
+  2 - Hábitos de estudio/trabajo  
+  3 - Pensamiento crítico  
+  4 - Desarrollo socioemocional  
 
-Ejemplo: `{a5h3}` = Pensamiento crítico de la quinta asignatura.
+Ejemplo: **`{a5h3}`** = Pensamiento crítico de la quinta asignatura.
+
+![templateDatos](images/templateHabilidades.png)
 
 ---
 
@@ -232,34 +278,41 @@ Formato:
 - `a#` → número de la asignatura  
 - `c` → comentario
 
-Ejemplo: `{a3c}` = Comentario de la tercera asignatura.
+Ejemplo: **`{a3c}`** = Comentario de la tercera asignatura.
 
-💡 **Tip:** para pegar comentarios largos con párrafos, usa la **barra de fórmulas** en la parte superior de Google Sheets. Así se conservan los saltos de línea y se evita que el texto se divida en varias celdas.
+![templateDatos](images/templateComments.png)
 
 ---
 
 ### 4️⃣ Calificaciones numéricas
 Formato:
 ```
-{a#pN}
+{a#p#}
 ```
 - `a#` → número de la asignatura  
-- `pN` → periodo (1, 2 o 3)
+- `p#` → periodo (1, 2 o 3)
 
-Ejemplo: `{a6p3}` = Calificación de la sexta asignatura en el tercer periodo.
+Ejemplo: **`{a6p3}`** = Calificación de la sexta asignatura en el tercer periodo.
+
+![templateDatos](images/templateGrades.png)
 
 ---
 
 ### 5️⃣ Promedios
+
 - **Promedio por asignatura**:  
   `{a#f}` = promedio final de esa asignatura  
-  Ejemplo: `{a4f}` = promedio final de la cuarta asignatura.
+  Ejemplo: **`{a4f}`** = promedio final de la cuarta asignatura.
 
 - **Promedio por periodo**:  
-  `{fpN}` = promedio general del periodo N  
-  Ejemplo: `{fp2}` = promedio general del segundo periodo.
+  `{fp#}` = promedio general del periodo #  
+  Ejemplo: **`{fp2}`** = promedio general del segundo periodo.
 
 - **Promedio final del año**:  
-  `{ff}` = promedio de promedios.
+  **`{ff}`** = promedio de promedios.
+
+![templateDatos](images/templatePromedios.png)
 
 ---
+
+![Separator](images/HorizontalLine.png)
