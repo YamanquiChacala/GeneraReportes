@@ -1,10 +1,12 @@
 /**
  * Inserta una fila de datos en todas las hojas de estudiantes.
- * @param {string} name El título que se le dará a la fila
+ * @param {string} name El título que se le dará a la fila.
+ * 
+ * TODO: Check that the new data is not repeated.
  */
 function addDataRow(name) {
     const spreadsheet = SpreadsheetApp.getActive();
-    const avoidSheets = Object.values(sheetNames).filter((a) => a != sheetNames.template)
+    const avoidSheets = Object.values(sheetNames).filter((a) => a != sheetNames.template);
     const sheets = spreadsheet.getSheets();
     const prevDatosRange = spreadsheet.getRangeByName(rangeNames.template.data);
 

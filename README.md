@@ -20,6 +20,46 @@ Permite **gestionar listas de estudiantes** 📋, **organizar la información po
 
 ---
 
+## 📑 Tabla de Contenidos
+
+### 👩‍🏫 [Guía para Docentes](#guía-para-docentes)
+- 📄 [Estructura de la hoja de cada alumno](#estructura-de-la-hoja-de-cada-alumno)
+- 📌 [Notas finales](#notas-finales)
+
+### 🚀 [Guía de inicio](#guía-de-inicio)
+- 🛠 [Creación de los archivos](#creación-de-los-archivos)
+- 👩‍🏫 [Preparación de alumnos](#preparación-de-alumnos)
+- 📚 [Preparación de materias](#preparación-de-materias)  
+  - 💡 [Notas importantes](#notas-importantes)
+- 🔑 [Pedir autorización](#pedir-autorización)
+- 🏁 [Inicialización](#inicialización)
+
+### 📝 [Plantilla de reportes](#plantilla-de-reportes)
+- 📌 [Reglas generales](#reglas-generales)  
+  - ⚠️ [Importante: orden de las asignaturas](#importante-orden-de-las-asignaturas)
+- 1️⃣ [Datos del alumno](#datos-del-alumno)
+- 2️⃣ [Habilidades de aprendizaje](#habilidades-de-aprendizaje)
+- 3️⃣ [Comentarios](#comentarios)
+- 4️⃣ [Calificaciones numéricas](#calificaciones-numéricas)
+- 5️⃣ [Promedios](#promedios)
+
+### 📃 [Menú Generador de Reportes](#menú-generador-de-reportes)
+- 🎒 [Alumnos](#alumnos)
+  - ➕ [Añadir nuevo alumno](#añadir-nuevo-alumno)
+  - ➖ [Añadir espacio en blanco](#añadir-espacio-en-blanco)
+- 🗃️ [Datos de alumnos](#datos-de-alumnos)
+  - ➕ [Crear nuevo dato](#crear-nuevo-dato)
+  - 📝 [Dar valor a un dato para todos los alumnos](#dar-valor-a-un-dato-para-todos-los-alumnos)
+- 🏫 [Control de periodos](#control-de-periodos)
+  - ✏️ [Borrar observaciones](#borrar-observaciones)
+  - 🛡️ [Secciones protegidas](#secciones-protegidas)
+- 📜 [Reportes](#reportes)
+  - 🦾 [Funcionamiento general](#funcionamiento-general)
+  - 🙋 [Reporte de alumno actual](#reporte-de-alumno-actual)
+  - 💯 [Todos los reportes](#todos-los-reportes)
+
+---
+
 ## 👥 Roles de uso  
 
 Este sistema está diseñado para dos tipos de usuarios:  
@@ -145,7 +185,7 @@ El **Generador de Reportes** utiliza **dos archivos**:
     - Introduce en la tabla el nombre de cada materia.
     - Cada fila corresponde a una materia distinta.
 
-### 💡 Notas importantes
+#### 💡 Notas importantes
 - 📌 **El orden importa**: El script utilizará exactamente el orden en el que se ingresen los alumnos y materias.
 - ➖ **Espacios en blanco**: Si dejas filas vacías, el script las respetará. Esto es útil si quieres **agrupar** alumnos o materias visualmente.
 
@@ -221,9 +261,7 @@ Puede tener **cualquier formato, diseño u orden**; el sistema solo busca y reem
 ![Plantilla](images/Folder.png)|![Asignaturas](images/TablaMaterias.png)
 |:---:|:---:|
 
----
-
-### ⚠️ Importante: orden de las asignaturas
+#### ⚠️ Importante: orden de las asignaturas
 
 El **orden de las asignaturas** en las etiquetas **debe coincidir exactamente** con el orden en que fueron configuradas en la hoja de cálculo al momento de la inicialización.
 
@@ -316,3 +354,155 @@ Ejemplo: **`{a6p3}`** = Calificación de la sexta asignatura en el tercer period
 ---
 
 ![Separator](images/HorizontalLine.png)
+
+## 📃 Menú *Generador de Reportes*
+
+Este menú contiene todas las herramientas para administrar el sistema de reportes: desde agregar alumnos hasta generar los documentos finales.
+
+A continuación se describe la función de cada opción. 
+
+![MenuMain](images/MenuMain.png)
+
+---
+
+### 🎒 Alumnos
+
+El submenú **Alumnos** contiene las opciones para agregar estudiantes al sistema.
+
+![MenuAlumnos](images/MenuAlumnos.png)
+
+---
+
+#### ➕ Añadir nuevo alumno  
+Crea un nuevo estudiante en la hoja de cálculo:
+
+- Genera una **hoja individual** para el estudiante.
+- Añade una **fila** en las hojas `Concentrado` y `Estado`.
+- Conecta todas las funciones de `Concentrado` y `Estado` para que muestren los datos del estudiante.
+- Aplica las **protecciones** definidas para su hoja, de modo que solo las secciones permitidas sean editables.
+
+Al presionar esta opción, aparece un diálogo solicitando:  
+- **Nombre(s)**  
+- **Apellido(s)**  
+
+La función **fallará** y mostrará un mensaje si:  
+- Algún campo está vacío.  
+- Ya existe un estudiante con esos nombres.
+
+![DialogoNombre](images/DialogNuevoAlumno1.png)|![DialogoApellido](images/DialogNuevoAlumno2.png)
+|:---:|:---:|
+
+---
+
+#### ➖ Añadir espacio en blanco  
+Inserta una **fila vacía** en `Concentrado` y `Estado`.  
+Esto separa visualmente grupos de estudiantes y asegura que el próximo alumno agregado comience en un bloque nuevo.
+
+---
+
+⚠ **Limitaciones importantes**  
+- Los estudiantes **solo pueden agregarse al final** de la lista actual.  
+- No es posible **reordenar** ni **eliminar** estudiantes una vez creados.
+
+---
+
+### 🗃️ Datos de alumnos
+
+Este submenú contiene funciones para trabajar con la sección **Datos** de cada hoja individual de los estudiantes.
+
+![MenuDatos](images/MenuDatos.png)
+
+---
+
+#### ➕ Crear nuevo dato  
+Agrega un **nuevo campo de información** en la sección **Datos** de todos los estudiantes.
+
+1. Solicita el **nombre** del nuevo dato.  
+2. Inserta una nueva fila en la sección **Datos** de cada hoja de estudiante.  
+
+> 💡 *Ejemplo*: Si se desea registrar un campo adicional como **"CURP"** o **"Correo electrónico"** para todos los estudiantes, esta función lo crea automáticamente.
+
+---
+
+#### 📝 Dar valor a un dato para todos los alumnos  
+Modifica un dato existente en la sección **Datos** de **todos** los estudiantes con un mismo valor.
+
+Flujo de uso:
+1. Aparece un diálogo solicitando el **nombre exacto** del dato a modificar  
+   - *Debe coincidir exactamente*, incluyendo mayúsculas, acentos y símbolos.  
+2. Un segundo diálogo solicita el **contenido** del valor que se aplicará a todos.
+
+> 💡 *Ejemplo*: Cambiar el campo **"Fecha"** a la fecha actual o el campo **"Periodo"** conforme avanza el ciclo escolar.
+
+---
+
+⚠ **Recomendaciones**
+- Verifica cuidadosamente la escritura del nombre del dato, ya que cualquier diferencia impedirá encontrarlo.  
+- Esta función sobrescribirá el valor existente de todos los estudiantes para ese dato.
+
+---
+
+### 🏫 Control de periodos
+
+Este submenú incluye funciones relacionadas con la gestión de los periodos escolares y la protección de las secciones de trabajo.
+
+![MenuPeriodos](images/MenuPeriodos.png)
+
+---
+
+#### ✏️ Borrar observaciones  
+Elimina **todas las observaciones** escritas en las hojas de los estudiantes, regresando las intrucciones básicas.
+
+- Uso típico: Al inicio de cada periodo escolar, para que los docentes puedan escribir observaciones frescas para cada alumno.  
+- Una vez ejecutada, no es posible recuperar las observaciones eliminadas.  
+
+**Flujo de seguridad**:
+1. Al hacer clic, aparece un **diálogo de advertencia** indicando que esta acción borrará todas las observaciones existentes.  
+2. El usuario debe **confirmar explícitamente** la operación para continuar.  
+
+> ⚠ **Atención**: Esta acción es irreversible. Si existe la posibilidad de necesitar las observaciones anteriores, realice una copia de seguridad antes.
+
+---
+
+#### 🛡️ Secciones protegidas  
+Permite activar o desactivar la protección de edición en distintas áreas clave de cada hoja de estudiante.
+
+![MenuProtegido](images/MenuProtegido.png)
+
+- 📖 **Un libro abierto** significa que la sección está abierta para edición.
+- 📕 **Un libro cerrado** marca que la sección está protegida contra escritura.
+
+> 💡 *Ejemplo*: Si el periodo 1 ya ha finalizado, se puede proteger para evitar modificaciones accidentales mientras se trabaja en el periodo 2.
+
+---
+
+### 📜 Reportes
+
+Estas funciones generan documentos individuales para cada alumno usando la **plantilla** configurada.
+
+![MenuReportes](images/MenuReportes.png)
+---
+
+#### 🦾 Funcionamiento general
+Cada vez que se genera un reporte:
+1. Se crea un nuevo **Google Docs** en la misma carpeta donde se encuentran la hoja de cálculo y la plantilla.
+2. El archivo se basa en la **plantilla** y reemplaza todas las etiquetas por la información de la hoja del estudiante.
+3. El nombre del archivo será exactamente el nombre del alumno.
+
+> ⚠ **Importante**: Si ya existe un documento con el mismo nombre, **se sobrescribirá**. Esto es intencional para permitir actualizar reportes sin acumular versiones antiguas.
+
+---
+
+#### 🙋 Reporte de alumno actual  
+Genera un reporte **únicamente** para el alumno cuya hoja está activa.  
+Si la hoja activa no corresponde a un alumno, la función no hará nada.
+
+---
+
+#### 💯 Todos los reportes  
+Genera reportes para **todos** los alumnos de la hoja de cálculo.  
+- Recorre cada hoja de estudiante, una por una.  
+- Puede tardar varios minutos dependiendo de la cantidad de alumnos.  
+- Mientras se ejecuta, aparece un diálogo informando que el proceso está en curso.  
+
+> 💡 *Consejo*: Use esta función al final de un periodo para actualizar los reportes de todos los estudiantes de una sola vez.

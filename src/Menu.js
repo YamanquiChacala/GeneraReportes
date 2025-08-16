@@ -15,7 +15,6 @@ function addInitialMenu() {
     const ui = SpreadsheetApp.getUi();
     ui.createMenu(menuTitle)
         .addItem("🪪 Pedir autorización", "requestAuth")
-        .addItem("Test", "test")
         .addToUi();
 }
 
