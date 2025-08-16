@@ -22,7 +22,7 @@ Permite **gestionar listas de estudiantes** 📋, **organizar la información po
 
 ## 📑 Tabla de Contenidos
 
-### 👩‍🏫 [Guía para Docentes](#Guía para Docentes)
+### 👩‍🏫 [Guía para Docentes](#docentes)
 - 📄 [Estructura de la hoja de cada alumno](#-estructura-de-la-hoja-de-cada-alumno)
 - 📌 [Notas finales](#-notas-finales)
 
@@ -78,7 +78,7 @@ Este sistema está diseñado para dos tipos de usuarios:
 
 ![Separator](images/HorizontalLine.png)
 
-<a name="Guía para Docentes"></a>
+<a name="docentes"></a>
 
 ## 👩‍🏫 Guía para Docentes  
 
