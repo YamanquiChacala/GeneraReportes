@@ -23,7 +23,7 @@ Permite **gestionar listas de estudiantes** 📋, **organizar la información po
 ## 📑 Tabla de Contenidos
 
 ### 👩‍🏫 [Guía para Docentes](#docentes)
-- 📄 [Estructura de la hoja de cada alumno](#-estructura-de-la-hoja-de-cada-alumno)
+- 📄 [Estructura de la hoja de cada alumno](#hoja-de-alumno)
 - 📌 [Notas finales](#-notas-finales)
 
 ### 🚀 [Guía de inicio](#-guía-de-inicio-1)
@@ -78,7 +78,7 @@ Este sistema está diseñado para dos tipos de usuarios:
 
 ![Separator](images/HorizontalLine.png)
 
-<a name="docentes"></a>
+<a name="docentes" />
 
 ## 👩‍🏫 Guía para Docentes  
 
@@ -90,6 +90,8 @@ Aun así, los docentes pueden consultar otras hojas:
 - **`Estado`** ✅ – Para confirmar qué datos ya se han completado y cuáles faltan.  
 
 ---
+
+<a name="hoja-de-alumno" />
 
 ### 📄 Estructura de la hoja de cada alumno  
 
