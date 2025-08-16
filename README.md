@@ -22,7 +22,7 @@ Permite **gestionar listas de estudiantes** 📋, **organizar la información po
 
 ## 📑 Tabla de Contenidos
 
-### 👩‍🏫 [Guía para Docentes](#-guía-para-docentes-1)
+### 👩‍🏫 [Guía para Docentes](#Guía para Docentes)
 - 📄 [Estructura de la hoja de cada alumno](#-estructura-de-la-hoja-de-cada-alumno)
 - 📌 [Notas finales](#-notas-finales)
 
@@ -36,7 +36,7 @@ Permite **gestionar listas de estudiantes** 📋, **organizar la información po
 
 ### 📝 [Plantilla de reportes](#-plantilla-de-reportes-1)
 - 📌 [Reglas generales](#-reglas-generales)  
-  - ⚠️ [Importante: orden de las asignaturas](#-importante-orden-de-las-asignaturas)
+  - ⚠️ [Importante: orden de las asignaturas](#%EF%B8%8F-importante-orden-de-las-asignaturas)
 - 1️⃣ [Datos del alumno](#-datos-del-alumno)
 - 2️⃣ [Habilidades de aprendizaje](#-habilidades-de-aprendizaje)
 - 3️⃣ [Comentarios](#-comentarios)
@@ -77,6 +77,8 @@ Este sistema está diseñado para dos tipos de usuarios:
 ---
 
 ![Separator](images/HorizontalLine.png)
+
+<a name="Guía para Docentes"></a>
 
 ## 👩‍🏫 Guía para Docentes  
 
