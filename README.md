@@ -24,39 +24,39 @@ Permite **gestionar listas de estudiantes** 📋, **organizar la información po
 
 ### 👩‍🏫 [Guía para Docentes](#docentes)
 - 📄 [Estructura de la hoja de cada alumno](#hoja-de-alumno)
-- 📌 [Notas finales](#-notas-finales)
+- 📌 [Notas finales](#docente-notas)
 
-### 🚀 [Guía de inicio](#-guía-de-inicio-1)
-- 🛠 [Creación de los archivos](#-creación-de-los-archivos)
-- 👩‍🏫 [Preparación de alumnos](#-preparación-de-alumnos)
-- 📚 [Preparación de materias](#-preparación-de-materias)  
-  - 💡 [Notas importantes](#-notas-importantes)
-- 🔑 [Pedir autorización](#-pedir-autorización)
-- 🏁 [Inicialización](#-inicialización)
+### 🚀 [Guía de inicio](#guia-inicio)
+- 🛠 [Creación de los archivos](#inicio-archivos)
+- 👩‍🏫 [Preparación de alumnos](#inicio-alumnos)
+- 📚 [Preparación de materias](#inicio-materias)  
+  - 💡 [Notas importantes](#inicio-notas)
+- 🔑 [Pedir autorización](#inicio-autorizacion)
+- 🏁 [Inicialización](#inicio-inicializacion)
 
-### 📝 [Plantilla de reportes](#-plantilla-de-reportes-1)
-- 📌 [Reglas generales](#-reglas-generales)  
-  - ⚠️ [Importante: orden de las asignaturas](#%EF%B8%8F-importante-orden-de-las-asignaturas)
-- 1️⃣ [Datos del alumno](#-datos-del-alumno)
-- 2️⃣ [Habilidades de aprendizaje](#-habilidades-de-aprendizaje)
-- 3️⃣ [Comentarios](#-comentarios)
-- 4️⃣ [Calificaciones numéricas](#-calificaciones-numéricas)
-- 5️⃣ [Promedios](#-promedios)
+### 📝 [Plantilla de reportes](#plantilla)
+- 📌 [Reglas generales](#plantilla-reglas)  
+  - ⚠️ [Importante: orden de las asignaturas](#plantilla-nota)
+- 1️⃣ [Datos del alumno](#plantilla-datos)
+- 2️⃣ [Habilidades de aprendizaje](#plantilla-habilidades)
+- 3️⃣ [Comentarios](#plantilla-comentarios)
+- 4️⃣ [Calificaciones numéricas](#plantilla-calificaciones)
+- 5️⃣ [Promedios](#plantilla-promedios)
 
-### 📃 [Menú Generador de Reportes](#-menú-generador-de-reportes-1)
-- 🎒 [Alumnos](#-alumnos)
-  - ➕ [Añadir nuevo alumno](#-añadir-nuevo-alumno)
-  - ➖ [Añadir espacio en blanco](#-añadir-espacio-en-blanco)
-- 🗃️ [Datos de alumnos](#-datos-de-alumnos)
-  - ➕ [Crear nuevo dato](#-crear-nuevo-dato)
-  - 📝 [Dar valor a un dato para todos los alumnos](#-dar-valor-a-un-dato-para-todos-los-alumnos)
-- 🏫 [Control de periodos](#-control-de-periodos)
-  - ✏️ [Borrar observaciones](#-borrar-observaciones)
-  - 🛡️ [Secciones protegidas](#-secciones-protegidas)
-- 📜 [Reportes](#-reportes)
-  - 🦾 [Funcionamiento general](#-funcionamiento-general)
-  - 🙋 [Reporte de alumno actual](#-reporte-de-alumno-actual)
-  - 💯 [Todos los reportes](#-todos-los-reportes)
+### 📃 [Menú Generador de Reportes](#menu)
+- 🎒 [Alumnos](#menu-alumnos)
+  - ➕ [Añadir nuevo alumno](#menu-alumnos-add)
+  - ➖ [Añadir espacio en blanco](#menu-alumnos-espacio)
+- 🗃️ [Datos de alumnos](#menu-datos)
+  - ➕ [Crear nuevo dato](#menu-datos-add)
+  - 📝 [Dar valor a un dato para todos los alumnos](#menu-datos-edit)
+- 🏫 [Control de periodos](#menu-periodos)
+  - ✏️ [Borrar observaciones](#menu-periodos-borrar)
+  - 🛡️ [Secciones protegidas](#menu-periodos-protegido)
+- 📜 [Reportes](#menu-reportes)
+  - 🦾 [Funcionamiento general](#menu-reportes-general)
+  - 🙋 [Reporte de alumno actual](#menu-reportes-alumno)
+  - 💯 [Todos los reportes](#menu-reportes-todos)
 
 ---
 
@@ -78,7 +78,7 @@ Este sistema está diseñado para dos tipos de usuarios:
 
 ![Separator](images/HorizontalLine.png)
 
-<a name="docentes" />
+<a name="docentes"></a>
 
 ## 👩‍🏫 Guía para Docentes  
 
@@ -91,7 +91,7 @@ Aun así, los docentes pueden consultar otras hojas:
 
 ---
 
-<a name="hoja-de-alumno" />
+<a name="hoja-de-alumno"></a>
 
 ### 📄 Estructura de la hoja de cada alumno  
 
@@ -125,6 +125,8 @@ Un administrador puede dar o quitar permisos de edición para cada sección:
 ![Comentarios](images/StudentComentarios.png)|![Calificaciones](images/StudentGrades.png)
 |:---:|:---:|
 
+<a name="docente-notas"></a>
+
 ### 📌 Notas finales  
 - El cálculo de **promedios** y la verificación de que todo esté listo para el reporte se realiza **automáticamente**.  
 - Los docentes **solo necesitan ingresar calificaciones y comentarios** en las áreas desbloqueadas.  
@@ -134,6 +136,8 @@ Un administrador puede dar o quitar permisos de edición para cada sección:
 
 ![Separator](images/HorizontalLine.png)
 
+<a name="guia-inicio"></a>
+
 ## 🚀 Guía de inicio
 ### *(Solo para administradores)*
 
@@ -142,6 +146,8 @@ El **Generador de Reportes** utiliza **dos archivos**:
 - 📝 **Plantilla de reportes** – documento base para generar los reportes, con el nombre exacto **`__Template__`**.
 
 ---
+
+<a name="inicio-archivos"></a>
 
 ### 🛠 Creación de los archivos
 
@@ -167,6 +173,8 @@ El **Generador de Reportes** utiliza **dos archivos**:
 
 ---
 
+<a name="inicio-alumnos"></a>
+
 ### 👩‍🏫 Preparación de alumnos
 
 5. 📄 **Identifica la hoja correcta**
@@ -181,6 +189,8 @@ El **Generador de Reportes** utiliza **dos archivos**:
 
 ---
 
+<a name="inicio-materias"></a>
+
 ### 📚 Preparación de materias
 
 7. 📍 **Localiza la tabla de materias**
@@ -188,6 +198,8 @@ El **Generador de Reportes** utiliza **dos archivos**:
 8. ✏️ **Lista las materias**
     - Introduce en la tabla el nombre de cada materia.
     - Cada fila corresponde a una materia distinta.
+
+<a name="inicio-notas"></a>
 
 #### 💡 Notas importantes
 - 📌 **El orden importa**: El script utilizará exactamente el orden en el que se ingresen los alumnos y materias.
@@ -197,6 +209,8 @@ El **Generador de Reportes** utiliza **dos archivos**:
 |:---:|:---:|:---:|
 
 ---
+
+<a name="inicio-autorizacion"></a>
 
 ### 🔑 Pedir autorización
 
@@ -224,6 +238,8 @@ El **Generador de Reportes** utiliza **dos archivos**:
 
 ---
 
+<a name="inicio-inicializacion"></a>
+
 ### 🏁 Inicialización
 
 14. 🖱 **Ejecuta la inicialización**
@@ -249,12 +265,16 @@ El **Generador de Reportes** utiliza **dos archivos**:
 
 ![Separator](images/HorizontalLine.png)
 
+<a name="plantilla"></a>
+
 ## 📝 Plantilla de reportes
 
 La plantilla es un documento de **Google Docs** que sirve como base para generar los reportes.  
 Puede tener **cualquier formato, diseño u orden**; el sistema solo busca y reemplaza **etiquetas** especiales escritas entre llaves **`{}`**.
 
 ---
+
+<a name="plantilla-reglas"></a>
 
 ### 📌 Reglas generales
 
@@ -264,6 +284,8 @@ Puede tener **cualquier formato, diseño u orden**; el sistema solo busca y reem
 
 ![Plantilla](images/Folder.png)|![Asignaturas](images/TablaMaterias.png)
 |:---:|:---:|
+
+<a name="plantilla-nota"></a>
 
 #### ⚠️ Importante: orden de las asignaturas
 
@@ -285,6 +307,8 @@ Si en la plantilla usas un número distinto al configurado en la hoja, el dato *
 
 ---
 
+<a name="plantilla-datos"></a>
+
 ### 1️⃣ Datos del alumno
 
 En la sección **Datos** (Nivel, Grado, Faltas, Periodo, Fecha, etc.) la etiqueta es simplemente el **nombre del dato** entre llaves.  
@@ -293,6 +317,8 @@ Ejemplo: **`{Fecha}`**
 ![templateDatos](images/templateDatos.png)
 
 ---
+
+<a name="plantilla-habilidades"></a>
 
 ### 2️⃣ Habilidades de aprendizaje
 Formato
@@ -312,6 +338,8 @@ Ejemplo: **`{a5h3}`** = Pensamiento crítico de la quinta asignatura.
 
 ---
 
+<a name="plantilla-comentarios"></a>
+
 ### 3️⃣ Comentarios
 Formato:
 ```
@@ -326,6 +354,8 @@ Ejemplo: **`{a3c}`** = Comentario de la tercera asignatura.
 
 ---
 
+<a name="plantilla-calificaciones"></a>
+
 ### 4️⃣ Calificaciones numéricas
 Formato:
 ```
@@ -339,6 +369,8 @@ Ejemplo: **`{a6p3}`** = Calificación de la sexta asignatura en el tercer period
 ![templateDatos](images/templateGrades.png)
 
 ---
+
+<a name="plantilla-promedios"></a>
 
 ### 5️⃣ Promedios
 
@@ -359,6 +391,8 @@ Ejemplo: **`{a6p3}`** = Calificación de la sexta asignatura en el tercer period
 
 ![Separator](images/HorizontalLine.png)
 
+<a name="menu"></a>
+
 ## 📃 Menú *Generador de Reportes*
 
 Este menú contiene todas las herramientas para administrar el sistema de reportes: desde agregar alumnos hasta generar los documentos finales.
@@ -369,6 +403,8 @@ A continuación se describe la función de cada opción.
 
 ---
 
+<a name="menu-alumnos"></a>
+
 ### 🎒 Alumnos
 
 El submenú **Alumnos** contiene las opciones para agregar estudiantes al sistema.
@@ -376,6 +412,8 @@ El submenú **Alumnos** contiene las opciones para agregar estudiantes al sistem
 ![MenuAlumnos](images/MenuAlumnos.png)
 
 ---
+
+<a name="menu-alumnos-add"></a>
 
 #### ➕ Añadir nuevo alumno  
 Crea un nuevo estudiante en la hoja de cálculo:
@@ -398,6 +436,8 @@ La función **fallará** y mostrará un mensaje si:
 
 ---
 
+<a name="menu-alumnos-espacio"></a>
+
 #### ➖ Añadir espacio en blanco  
 Inserta una **fila vacía** en `Concentrado` y `Estado`.  
 Esto separa visualmente grupos de estudiantes y asegura que el próximo alumno agregado comience en un bloque nuevo.
@@ -410,6 +450,8 @@ Esto separa visualmente grupos de estudiantes y asegura que el próximo alumno a
 
 ---
 
+<a name="menu-datos"></a>
+
 ### 🗃️ Datos de alumnos
 
 Este submenú contiene funciones para trabajar con la sección **Datos** de cada hoja individual de los estudiantes.
@@ -417,6 +459,8 @@ Este submenú contiene funciones para trabajar con la sección **Datos** de cada
 ![MenuDatos](images/MenuDatos.png)
 
 ---
+
+<a name="menu-datos-add"></a>
 
 #### ➕ Crear nuevo dato  
 Agrega un **nuevo campo de información** en la sección **Datos** de todos los estudiantes.
@@ -427,6 +471,8 @@ Agrega un **nuevo campo de información** en la sección **Datos** de todos los 
 > 💡 *Ejemplo*: Si se desea registrar un campo adicional como **"CURP"** o **"Correo electrónico"** para todos los estudiantes, esta función lo crea automáticamente.
 
 ---
+
+<a name="menu-datos-edit"></a>
 
 #### 📝 Dar valor a un dato para todos los alumnos  
 Modifica un dato existente en la sección **Datos** de **todos** los estudiantes con un mismo valor.
@@ -446,6 +492,8 @@ Flujo de uso:
 
 ---
 
+<a name="menu-periodos"></a>
+
 ### 🏫 Control de periodos
 
 Este submenú incluye funciones relacionadas con la gestión de los periodos escolares y la protección de las secciones de trabajo.
@@ -453,6 +501,8 @@ Este submenú incluye funciones relacionadas con la gestión de los periodos esc
 ![MenuPeriodos](images/MenuPeriodos.png)
 
 ---
+
+<a name="menu-periodos-borrar"></a>
 
 #### ✏️ Borrar observaciones  
 Elimina **todas las observaciones** escritas en las hojas de los estudiantes, regresando las intrucciones básicas.
@@ -468,6 +518,8 @@ Elimina **todas las observaciones** escritas en las hojas de los estudiantes, re
 
 ---
 
+<a name="menu-periodos-protegido"></a>
+
 #### 🛡️ Secciones protegidas  
 Permite activar o desactivar la protección de edición en distintas áreas clave de cada hoja de estudiante.
 
@@ -480,12 +532,16 @@ Permite activar o desactivar la protección de edición en distintas áreas clav
 
 ---
 
+<a name="menu-reportes"></a>
+
 ### 📜 Reportes
 
 Estas funciones generan documentos individuales para cada alumno usando la **plantilla** configurada.
 
 ![MenuReportes](images/MenuReportes.png)
 ---
+
+<a name="menu-reportes-general"></a>
 
 #### 🦾 Funcionamiento general
 Cada vez que se genera un reporte:
@@ -497,11 +553,15 @@ Cada vez que se genera un reporte:
 
 ---
 
+<a name="menu-reportes-alumno"></a>
+
 #### 🙋 Reporte de alumno actual  
 Genera un reporte **únicamente** para el alumno cuya hoja está activa.  
 Si la hoja activa no corresponde a un alumno, la función no hará nada.
 
 ---
+
+<a name="menu-reportes-todos"></a>
 
 #### 💯 Todos los reportes  
 Genera reportes para **todos** los alumnos de la hoja de cálculo.  
