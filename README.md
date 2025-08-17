@@ -20,6 +20,22 @@ Permite **gestionar listas de estudiantes** 📋, **organizar la información po
 
 ---
 
+## 👥 Roles de uso  
+
+Este sistema está diseñado para dos tipos de usuarios:  
+
+- **👩‍🏫 Docentes**  
+    - Acceden únicamente a las hojas individuales de sus estudiantes.  
+    - Registran calificaciones, observaciones y otros datos solicitados.  
+    - No necesitan interactuar con el menú personalizado del script.  
+
+- **🛠 Administradores**  
+    - Configuran el archivo inicial y realizan cambios en la estructura.  
+    - Usan el menú **`📃 Generador de Reportes`** para inicializar, agregar estudiantes, borrar datos, proteger secciones y generar reportes.  
+    - Son responsables de mantener el correcto funcionamiento del sistema. 
+
+---
+
 ## 📑 Tabla de Contenidos
 
 ### 👩‍🏫 [Guía para Docentes](#docentes)
@@ -56,23 +72,11 @@ Permite **gestionar listas de estudiantes** 📋, **organizar la información po
 - 📜 [Reportes](#menu-reportes)
   - 🦾 [Funcionamiento general](#menu-reportes-general)
   - 🙋 [Reporte de alumno actual](#menu-reportes-alumno)
-  - 💯 [Todos los reportes](#menu-reportes-todos)
+  - 💯 [Todos los reportes](#menu-reportes-todos) 
 
----
+### 🛠️ [Notas técnicas](#developer-notes)
 
-## 👥 Roles de uso  
-
-Este sistema está diseñado para dos tipos de usuarios:  
-
-- **👩‍🏫 Docentes**  
-    - Acceden únicamente a las hojas individuales de sus estudiantes.  
-    - Registran calificaciones, observaciones y otros datos solicitados.  
-    - No necesitan interactuar con el menú personalizado del script.  
-
-- **🛠 Administradores**  
-    - Configuran el archivo inicial y realizan cambios en la estructura.  
-    - Usan el menú **`📃 Generador de Reportes`** para inicializar, agregar estudiantes, borrar datos, proteger secciones y generar reportes.  
-    - Son responsables de mantener el correcto funcionamiento del sistema.  
+### ❓ [Preguntas Frecuentes (FAQ)](#faq)
 
 ---
 
@@ -570,3 +574,65 @@ Genera reportes para **todos** los alumnos de la hoja de cálculo.
 - Mientras se ejecuta, aparece un diálogo informando que el proceso está en curso.  
 
 > 💡 *Consejo*: Use esta función al final de un periodo para actualizar los reportes de todos los estudiantes de una sola vez.
+
+---
+
+![separator](images/HorizontalLine.png)
+
+<a name="developer-notes"></a>
+
+## 🛠️ Notas técnicas
+
+Esta sección no está pensada para los docentes, sino como referencia para otros desarrolladores o para el propio mantenimiento del sistema.  
+
+### 🔓 Seguridad
+- **Sin seguridad real**: cualquier persona con permisos de edición sobre la hoja de cálculo puede abrir el editor de Apps Script y modificar el código.  
+- **Autorización solo de adorno**: existe un sistema de autorización que limita el menú completo solo a administradores, pero cualquiera puede editar el código y añadirse como administrador. No debe considerarse una medida de seguridad.  
+
+### ⏱️ Límite de ejecución de Google
+- Google Apps Script impone un **tiempo máximo de ejecución de 6 minutos** para cualquier función.  
+- Con un número pequeño o moderado de alumnos no habrá problema, pero con **más de ~100 alumnos en un mismo archivo** se puede alcanzar este límite.  
+
+### 🦾 Funciones con salvaguardas
+- **🏁 Inicialización** y **💯 Todos los reportes** son las dos funciones más pesadas.  
+- Si superan el límite de 6 minutos, están programadas para:  
+  1. ⚡ Crear un **subproceso** que continúa la tarea en segundo plano.  
+  2. 📢 Informar al usuario mediante un diálogo de que el trabajo seguirá corriendo automáticamente.  
+
+### ⚡ Otras funciones
+- Todas las demás funciones son mucho más ligeras, incluso con cientos de alumnos.  
+- En caso improbable de sobrepasar el límite, la función simplemente fallará.  
+
+---
+
+![separator](images/HorizontalLine.png)
+
+<a name="faq"></a>
+
+## ❓ Preguntas Frecuentes (FAQ)
+
+Aunque aún no se han recibido preguntas de usuarios, aquí se incluyen algunas dudas comunes que pueden surgir:
+
+- ❓ **¿Puedo eliminar o reordenar un alumno?**  
+  👉 No. Los alumnos solo pueden agregarse al final de la lista, nunca eliminarse ni reordenarse.
+
+- ❓ **¿Qué pasa si cambio el nombre de un alumno directamente en la hoja?**  
+  👉 No funcionará bien. El sistema depende de que los nombres permanezcan idénticos a los que se usaron al añadir al alumno.
+
+- ❓ **¿Qué pasa si muevo manualmente filas?**  
+  👉 No se recomienda. Puede romper la relación entre los datos y dejar de funcionar correctamente.
+
+- ❓ **¿Puedo usar este sistema en otro ciclo escolar?**  
+  👉 Sí. creando una nueva carpeta de Drive y repitiendo el proceso de inicialización.
+
+---
+
+## 📝 Créditos y Licencia
+
+- 👨‍💻 **Autor:** [Yamanqui García Rosales](https://github.com/Yamanqui)
+- 📂 **Repositorio:** [GitHub](https://github.com/YamanquiChacala/GeneraReportes)
+
+Este proyecto fue desarrollado desde cero sin usar librerías externas.
+
+### 📜 Licencia
+Este software se distribuye bajo la licencia **MIT**, lo que significa que puedes usarlo, copiarlo, modificarlo y distribuirlo libremente, siempre y cuando incluyas una copia de esta licencia en las redistribuciones.
