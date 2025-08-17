@@ -201,6 +201,7 @@ function splitAddingStudents() {
     const startTime = Date.now();
     // 4 minutos la primera vez, 5 minútos en las siguientes.
     const maxTime = 60 * 1000 * (5 - (currentIndex ? 0 : 1));
+    // const maxTime = 5 * 1000; // Solo para pruebas
 
     while (currentIndex < students.length && (Date.now() - startTime) < maxTime) {
         const student = students[currentIndex];

@@ -58,3 +58,15 @@ function showWaitDialog(title) {
         .setHeight(500);
     SpreadsheetApp.getUi().showModalDialog(html, title);
 }
+
+/**
+ * 
+ */
+function safeUiAction() {
+    try {
+        SpreadsheetApp.getUi();
+        return true;
+    } catch (err) {
+        return false;
+    }
+}

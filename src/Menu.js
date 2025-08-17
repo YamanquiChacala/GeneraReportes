@@ -98,7 +98,10 @@ function initialize() {
     const addSheet = spreadsheet.getSheetByName(sheetNames.add);
     const statusSheet = spreadsheet.getSheetByName(sheetNames.status);
 
-    if (!initSheet || !addSheet || !statusSheet || !templateSheet || initSheet.isSheetHidden()) return;
+    if (!initSheet || !addSheet || !statusSheet || !templateSheet || initSheet.isSheetHidden()) {
+        requestAuth();
+        return;
+    }
 
     showWaitDialog("Inicializando");
 
@@ -130,6 +133,10 @@ function finishInitialization() {
     initSheet.hideSheet();
     templateSheet.hideSheet();
     statusSheet.setRowHeight(1, 65);
+
+    if (safeUiAction()) {
+        requestAuth();
+    }
 }
 
 /**
