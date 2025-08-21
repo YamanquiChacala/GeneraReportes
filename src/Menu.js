@@ -252,6 +252,7 @@ function menuUpdateProtections() {
     showWaitDialog("Actualizando protecciones");
 
     updateSheetProtections();
+    requestAuth();
 }
 
 /**
